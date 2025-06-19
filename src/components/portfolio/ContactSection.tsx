@@ -15,7 +15,7 @@ export default function ContactSection({ isDarkMode }: ContactSectionProps) {
   };
 
   const handleLinkedinClick = () => {
-    window.open('https://linkedin.com/in/derekbolyard', '_blank', 'noopener,noreferrer');
+    window.open('https://www.linkedin.com/in/derek-bolyard-1b305516b/', '_blank', 'noopener,noreferrer');
   };
 
   return (
