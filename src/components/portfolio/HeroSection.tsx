@@ -15,8 +15,14 @@ export default function HeroSection({
   showEasterEgg 
 }: HeroSectionProps) {
   const handleGetInTouchClick = () => {
-    window.location.href = 'mailto:derekbolyard@gmail.com?subject=Let\'s Work Together!&body=Hi Derek,%0D%0A%0D%0AI\'d love to discuss a potential project with you.%0D%0A%0D%0ABest regards,';
-  };
+    const subject = encodeURIComponent("Let's Work Together!");
+    const body    = encodeURIComponent(
+    "Hi Derek,\n\nI'd love to discuss a potential project with you.\n\nBest regards,"
+  );
+
+  window.location.href = `mailto:derekbolyard@gmail.com?subject=${subject}&body=${body}`;
+};
+
 
   return (
     <section className="relative min-h-screen flex items-center justify-center px-6">
