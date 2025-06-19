@@ -7,8 +7,14 @@ interface ContactSectionProps {
 
 export default function ContactSection({ isDarkMode }: ContactSectionProps) {
   const handleEmailClick = () => {
-    window.location.href = 'mailto:derekbolyard@gmail.com?subject=Let\'s Work Together!&body=Hi Derek,%0D%0A%0D%0AI\'d love to discuss a potential project with you.%0D%0A%0D%0ABest regards,';
-  };
+  const subject = encodeURIComponent("Let's Work Together!");
+  const body    = encodeURIComponent(
+    "Hi Derek,\n\nI'd love to discuss a potential project with you.\n\nBest regards,"
+  );
+
+  window.location.href = `mailto:derekbolyard@gmail.com?subject=${subject}&body=${body}`;
+};
+
 
   const handleGithubClick = () => {
     window.open('https://github.com/derekbolyard', '_blank', 'noopener,noreferrer');
