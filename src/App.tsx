@@ -5,13 +5,15 @@ import Navigation from './components/Navigation';
 export default function App() {
   const navigate  = useNavigate();
   const location  = useLocation();
+  const { pathname } = useLocation();
+  const hideNav = pathname.startsWith('/design');
 
   return (
-    <div className="relative">
-      <Navigation
-        currentPage={location.pathname}          // "/eyes", "/design", …
-        onPageChange={(path) => navigate(path)}  // wrapper around router nav
-      />
+    <div className="relative min-h-screen">
+      {!hideNav && <Navigation
+        currentPage={location.pathname}
+        onPageChange={(path) => navigate(path)}
+      />}
       <AppRouter />
     </div>
   );
