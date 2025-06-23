@@ -112,7 +112,7 @@ export default function PortfolioPage() {
               </button>
               
               <button
-                onClick={() => window.open('https://linkedin.com/in/derekbolyard', '_blank', 'noopener,noreferrer')}
+                onClick={() => window.open('https://www.linkedin.com/in/derek-bolyard-1b305516b/', '_blank', 'noopener,noreferrer')}
                 className={`flex items-center gap-2 transition-all duration-300 group hover:scale-110 ${
                   isDarkMode 
                     ? 'text-gray-400 hover:text-blue-400' 
