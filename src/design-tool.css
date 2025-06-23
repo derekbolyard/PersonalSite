@@ -1,0 +1,101 @@
+/* Design Tool Specific Styles - Scoped to .design-tool-container */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap');
+
+/* Scope all design tool styles under the container class */
+.design-tool-container {
+  /* Font family definitions for design tool */
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.design-tool-container * {
+  box-sizing: border-box;
+}
+
+/* Enhanced scrollbar hiding for navigation */
+.design-tool-container .scrollbar-hide {
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.design-tool-container .scrollbar-hide::-webkit-scrollbar { 
+  display: none;  /* Safari and Chrome */
+}
+
+/* Ensure smooth scrolling */
+.design-tool-container .scrollbar-hide {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Ensure touch targets are at least 44px on mobile */
+@media (max-width: 640px) {
+  .design-tool-container button {
+    min-height: 44px;
+  }
+  
+  .design-tool-container input[type="checkbox"] {
+    min-width: 20px;
+    min-height: 20px;
+  }
+}
+
+/* Mobile menu animations */
+@media (max-width: 768px) {
+  .design-tool-container .mobile-menu-enter {
+    transform: translateX(100%);
+  }
+  
+  .design-tool-container .mobile-menu-enter-active {
+    transform: translateX(0);
+    transition: transform 300ms ease-in-out;
+  }
+  
+  .design-tool-container .mobile-menu-exit {
+    transform: translateX(0);
+  }
+  
+  .design-tool-container .mobile-menu-exit-active {
+    transform: translateX(100%);
+    transition: transform 300ms ease-in-out;
+  }
+}
+
+/* Desktop navigation scroll indicators */
+@media (min-width: 768px) {
+  .design-tool-container .nav-scroll-container {
+    position: relative;
+  }
+  
+  .design-tool-container .nav-scroll-container::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 30px;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.9));
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .design-tool-container .nav-scroll-container.has-overflow::after {
+    opacity: 1;
+  }
+}
+
+/* Design tool specific font families */
+.design-tool-container .font-mono {
+  font-family: 'JetBrains Mono', Consolas, Monaco, 'Courier New', monospace;
+}
+
+.design-tool-container .font-display {
+  font-family: Inter, system-ui, sans-serif;
+}
+
+.design-tool-container .font-body {
+  font-family: Inter, system-ui, sans-serif;
+}
