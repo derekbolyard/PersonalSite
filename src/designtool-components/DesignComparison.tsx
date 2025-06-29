@@ -1,14 +1,48 @@
 import React, { useState } from 'react';
-import { Palette, Eye, Heart, Zap, Shield, Target, Copy, Check, ArrowRight, Code, Sparkles, Bot, FileText } from 'lucide-react';
+import { Palette, Eye, Heart, Zap, Shield, Target, Copy, Check, ArrowRight, Code, Sparkles, Bot, FileText, Building2, Gamepad2, Laptop, Paintbrush, Users } from 'lucide-react';
 import { tailwindConfigs } from './utils/tailwind-configs';
 import { getAIPrompt } from './utils/ai-prompts';
 
 const DesignComparison = () => {
   const [selectedDesign, setSelectedDesign] = useState<DesignKey>('friendly-approachable');
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [copiedConfig, setCopiedConfig] = useState(false);
   const [copiedPrompt, setCopiedPrompt] = useState(false);
   const [showCode, setShowCode] = useState(false);
   const [showPrompt, setShowPrompt] = useState(false);
+
+  const categories = {
+    all: {
+      name: 'All Styles',
+      icon: Palette,
+      description: 'Browse all available design styles'
+    },
+    business: {
+      name: 'Business & Professional',
+      icon: Building2,
+      description: 'Styles for corporate, B2B, and professional services'
+    },
+    creative: {
+      name: 'Creative & Artistic',
+      icon: Paintbrush,
+      description: 'Bold, expressive styles for creative agencies and artists'
+    },
+    technical: {
+      name: 'Technical & Developer',
+      icon: Laptop,
+      description: 'Styles for tech products, tools, and developer-focused sites'
+    },
+    friendly: {
+      name: 'User-Friendly & Approachable',
+      icon: Users,
+      description: 'Welcoming styles that build trust and reduce anxiety'
+    },
+    entertainment: {
+      name: 'Entertainment & Gaming',
+      icon: Gamepad2,
+      description: 'Fun, energetic styles for entertainment and gaming'
+    }
+  };
 
   const designs = {
     'friendly-approachable': {
@@ -19,12 +53,47 @@ const DesignComparison = () => {
       vibe: '😊 "We\'re here to help you succeed!"',
       pros: ['Reduces intimidation', 'Builds emotional connection', 'Encourages engagement'],
       cons: ['May seem less professional', 'Could appear too casual for enterprise'],
+      category: 'friendly',
       preview: {
         headerBg: 'bg-gradient-to-br from-orange-50 to-amber-50',
         cardBg: 'bg-white/90 backdrop-blur-sm',
         buttonBg: 'bg-gradient-to-r from-orange-400 to-amber-500',
         textColor: 'text-gray-800',
         accentColor: 'text-orange-500'
+      }
+    },
+    'human-centric': {
+      ...tailwindConfigs['human-centric'],
+      colors: ['bg-gradient-to-br from-blue-400 to-purple-500', 'bg-blue-50', 'bg-indigo-50'],
+      personality: 'Empathetic, caring, supportive',
+      bestFor: 'Healthcare, education, social causes, user onboarding',
+      vibe: '💙 "We understand and care about your journey."',
+      pros: ['Builds emotional connection', 'Reduces anxiety', 'Encourages trust'],
+      cons: ['May seem too soft for some industries', 'Could lack authority'],
+      category: 'friendly',
+      preview: {
+        headerBg: 'bg-gradient-to-br from-blue-50 to-indigo-50',
+        cardBg: 'bg-white/70 backdrop-blur-sm',
+        buttonBg: 'bg-gradient-to-r from-blue-500 to-purple-600',
+        textColor: 'text-gray-800',
+        accentColor: 'text-blue-500'
+      }
+    },
+    'modern-minimalist': {
+      ...tailwindConfigs['modern-minimalist'],
+      colors: ['bg-minimal-gray', 'bg-white', 'bg-gray-100'],
+      personality: 'Sophisticated, premium, refined',
+      bestFor: 'Luxury brands, high-end services, premium positioning',
+      vibe: '✨ "Less is more, elegance is everything."',
+      pros: ['Premium feel', 'Timeless design', 'Focuses attention'],
+      cons: ['May seem cold', 'Less personality', 'Can be boring'],
+      category: 'business',
+      preview: {
+        headerBg: 'bg-white',
+        cardBg: 'bg-white',
+        buttonBg: 'bg-minimal-accent',
+        textColor: 'text-minimal-dark',
+        accentColor: 'text-minimal-accent'
       }
     },
     'professional-brutalism': {
@@ -35,27 +104,12 @@ const DesignComparison = () => {
       vibe: '💼 "We mean business and deliver results."',
       pros: ['Builds credibility', 'Stands out from competition', 'Appeals to decision-makers'],
       cons: ['Can feel intimidating', 'Less approachable', 'May overwhelm some users'],
+      category: 'business',
       preview: {
         headerBg: 'bg-gray-50',
         cardBg: 'bg-white',
         buttonBg: 'bg-slate-900',
         textColor: 'text-slate-900',
-        accentColor: 'text-blue-600'
-      }
-    },
-    'refined-brutalism': {
-      ...tailwindConfigs['refined-brutalism'],
-      colors: ['bg-gradient-to-r from-blue-600 to-purple-600', 'bg-white', 'bg-gray-100'],
-      personality: 'Adaptable, modern, premium',
-      bestFor: 'Agencies wanting brand flexibility, premium positioning',
-      vibe: '🎨 "Bold yet refined - your brand, your way."',
-      pros: ['Highly customizable', 'Premium feel', 'Memorable design'],
-      cons: ['More complex', 'Requires brand decisions', 'Can be overwhelming'],
-      preview: {
-        headerBg: 'bg-gray-100',
-        cardBg: 'bg-white',
-        buttonBg: 'bg-gradient-to-r from-blue-600 to-purple-600',
-        textColor: 'text-gray-900',
         accentColor: 'text-blue-600'
       }
     },
@@ -67,10 +121,96 @@ const DesignComparison = () => {
       vibe: '🔬 "Precise, accurate, scientifically sound."',
       pros: ['Builds technical trust', 'Easy to scan', 'Professional appearance'],
       cons: ['Can feel sterile', 'Less emotional appeal', 'May seem boring'],
+      category: 'technical',
       preview: {
         headerBg: 'bg-gray-50',
         cardBg: 'bg-white',
         buttonBg: 'bg-blue-600',
+        textColor: 'text-gray-900',
+        accentColor: 'text-blue-600'
+      }
+    },
+    'data-minimalism': {
+      ...tailwindConfigs['data-minimalism'],
+      colors: ['bg-white', 'bg-gray-50', 'bg-gray-100'],
+      personality: 'Analytical, precise, no-nonsense',
+      bestFor: 'Analytics tools, developer tools, data-heavy applications',
+      vibe: '📊 "Just the facts, clearly presented."',
+      pros: ['Excellent information density', 'Appeals to technical users', 'Fast to scan'],
+      cons: ['Can feel cold', 'Less engaging', 'May intimidate non-technical users'],
+      category: 'technical',
+      preview: {
+        headerBg: 'bg-white',
+        cardBg: 'bg-white',
+        buttonBg: 'bg-gray-800',
+        textColor: 'text-gray-900',
+        accentColor: 'text-blue-600'
+      }
+    },
+    'vscode-style': {
+      ...tailwindConfigs['vscode-style'],
+      colors: ['bg-vscode-bg', 'bg-vscode-sidebar', 'bg-vscode-blue'],
+      personality: 'Technical, familiar, functional',
+      bestFor: 'Developer tools, code editors, technical products',
+      vibe: '💻 "Familiar, functional, and developer-friendly."',
+      pros: ['Familiar to developers', 'Highly functional', 'Professional'],
+      cons: ['Limited appeal', 'Can seem intimidating', 'Very technical'],
+      category: 'technical',
+      preview: {
+        headerBg: 'bg-vscode-sidebar',
+        cardBg: 'bg-vscode-bg',
+        buttonBg: 'bg-vscode-blue',
+        textColor: 'text-white',
+        accentColor: 'text-vscode-green'
+      }
+    },
+    'sleek-dark-mode': {
+      ...tailwindConfigs['sleek-dark-mode'],
+      colors: ['bg-dark-bg', 'bg-dark-surface', 'bg-dark-accent'],
+      personality: 'Modern, sophisticated, high-tech',
+      bestFor: 'Tech products, gaming, modern applications',
+      vibe: '🌙 "Sleek, modern, and effortlessly cool."',
+      pros: ['Modern appeal', 'Reduces eye strain', 'Premium feel'],
+      cons: ['Not suitable for all audiences', 'Accessibility challenges', 'Can feel cold'],
+      category: 'technical',
+      preview: {
+        headerBg: 'bg-dark-surface',
+        cardBg: 'bg-dark-surface',
+        buttonBg: 'bg-dark-accent',
+        textColor: 'text-dark-text',
+        accentColor: 'text-dark-accent'
+      }
+    },
+    'editorial-layout': {
+      ...tailwindConfigs['editorial-layout'],
+      colors: ['bg-editorial-cream', 'bg-white', 'bg-editorial-gold'],
+      personality: 'Sophisticated, readable, authoritative',
+      bestFor: 'Publications, content-heavy sites, blogs',
+      vibe: '📰 "Timeless elegance meets modern readability."',
+      pros: ['Excellent readability', 'Professional appearance', 'Content-focused'],
+      cons: ['Can seem traditional', 'Less interactive', 'May appear dated'],
+      category: 'business',
+      preview: {
+        headerBg: 'bg-white',
+        cardBg: 'bg-editorial-cream',
+        buttonBg: 'bg-editorial-burgundy',
+        textColor: 'text-editorial-charcoal',
+        accentColor: 'text-editorial-gold'
+      }
+    },
+    'refined-brutalism': {
+      ...tailwindConfigs['refined-brutalism'],
+      colors: ['bg-gradient-to-r from-blue-600 to-purple-600', 'bg-white', 'bg-gray-100'],
+      personality: 'Adaptable, modern, premium',
+      bestFor: 'Agencies wanting brand flexibility, premium positioning',
+      vibe: '🎨 "Bold yet refined - your brand, your way."',
+      pros: ['Highly customizable', 'Premium feel', 'Memorable design'],
+      cons: ['More complex', 'Requires brand decisions', 'Can be overwhelming'],
+      category: 'creative',
+      preview: {
+        headerBg: 'bg-gray-100',
+        cardBg: 'bg-white',
+        buttonBg: 'bg-gradient-to-r from-blue-600 to-purple-600',
         textColor: 'text-gray-900',
         accentColor: 'text-blue-600'
       }
@@ -83,6 +223,7 @@ const DesignComparison = () => {
       vibe: '⚡ "Break the rules, demand attention!"',
       pros: ['Extremely memorable', 'Stands out completely', 'Appeals to creative audiences'],
       cons: ['Can be overwhelming', 'Not suitable for conservative brands', 'Accessibility concerns'],
+      category: 'creative',
       preview: {
         headerBg: 'bg-white',
         cardBg: 'bg-black',
@@ -91,36 +232,38 @@ const DesignComparison = () => {
         accentColor: 'text-yellow-400'
       }
     },
-    'human-centric': {
-      ...tailwindConfigs['human-centric'],
-      colors: ['bg-gradient-to-br from-blue-400 to-purple-500', 'bg-blue-50', 'bg-indigo-50'],
-      personality: 'Empathetic, caring, supportive',
-      bestFor: 'Healthcare, education, social causes, user onboarding',
-      vibe: '💙 "We understand and care about your journey."',
-      pros: ['Builds emotional connection', 'Reduces anxiety', 'Encourages trust'],
-      cons: ['May seem too soft for some industries', 'Could lack authority'],
+    'playful-whimsical': {
+      ...tailwindConfigs['playful-whimsical'],
+      colors: ['bg-playful-pink', 'bg-playful-yellow', 'bg-playful-mint'],
+      personality: 'Fun, energetic, joyful',
+      bestFor: 'Creative agencies, children\'s products, youth brands',
+      vibe: '🎉 "Life\'s too short for boring design!"',
+      pros: ['Highly engaging', 'Memorable', 'Appeals to younger audiences'],
+      cons: ['Not suitable for serious industries', 'Can be overwhelming', 'May seem unprofessional'],
+      category: 'entertainment',
       preview: {
-        headerBg: 'bg-gradient-to-br from-blue-50 to-indigo-50',
-        cardBg: 'bg-white/70 backdrop-blur-sm',
-        buttonBg: 'bg-gradient-to-r from-blue-500 to-purple-600',
+        headerBg: 'bg-gradient-to-br from-playful-mint to-playful-yellow',
+        cardBg: 'bg-white/90 backdrop-blur-sm',
+        buttonBg: 'bg-gradient-to-r from-playful-pink to-playful-purple',
         textColor: 'text-gray-800',
-        accentColor: 'text-blue-500'
+        accentColor: 'text-playful-pink'
       }
     },
-    'data-minimalism': {
-      ...tailwindConfigs['data-minimalism'],
-      colors: ['bg-white', 'bg-gray-50', 'bg-gray-100'],
-      personality: 'Analytical, precise, no-nonsense',
-      bestFor: 'Analytics tools, developer tools, data-heavy applications',
-      vibe: '📊 "Just the facts, clearly presented."',
-      pros: ['Excellent information density', 'Appeals to technical users', 'Fast to scan'],
-      cons: ['Can feel cold', 'Less engaging', 'May intimidate non-technical users'],
+    'eighties-retro': {
+      ...tailwindConfigs['eighties-retro'],
+      colors: ['bg-retro-pink', 'bg-retro-cyan', 'bg-retro-purple'],
+      personality: 'Nostalgic, bold, energetic',
+      bestFor: 'Entertainment, gaming, creative projects',
+      vibe: '🕺 "Totally radical and absolutely electric!"',
+      pros: ['Extremely memorable', 'Appeals to nostalgia', 'High energy'],
+      cons: ['Very niche appeal', 'Can be overwhelming', 'Not suitable for serious business'],
+      category: 'entertainment',
       preview: {
-        headerBg: 'bg-white',
-        cardBg: 'bg-white',
-        buttonBg: 'bg-gray-800',
-        textColor: 'text-gray-900',
-        accentColor: 'text-blue-600'
+        headerBg: 'bg-black',
+        cardBg: 'bg-retro-purple',
+        buttonBg: 'bg-retro-yellow',
+        textColor: 'text-white',
+        accentColor: 'text-retro-cyan'
       }
     }
   };
@@ -128,6 +271,11 @@ const DesignComparison = () => {
   type DesignKey = keyof typeof designs; 
   const currentDesign = designs[selectedDesign];
   const currentPrompt = getAIPrompt(selectedDesign);
+
+  // Filter designs by category
+  const filteredDesigns = selectedCategory === 'all' 
+    ? Object.entries(designs)
+    : Object.entries(designs).filter(([key, design]) => design.category === selectedCategory);
 
   const copyConfigToClipboard = async () => {
     const configString = `module.exports = {
@@ -195,16 +343,50 @@ module.exports = {
             </h1>
             <p className="text-base sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Each design style creates a different emotional response and serves different business goals. 
-              Explore the options below and see which one matches your vision.
+              Browse by category to find the perfect match for your project.
             </p>
           </div>
         </div>
       </div>
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+        {/* Category Filter */}
+        <div className="mb-8 sm:mb-12">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6 text-center">Browse by Category</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+            {Object.entries(categories).map(([key, category]) => (
+              <button
+                key={key}
+                onClick={() => setSelectedCategory(key)}
+                className={`p-3 sm:p-4 rounded-xl border-2 transition-all text-center ${
+                  selectedCategory === key
+                    ? 'border-blue-500 bg-blue-50 shadow-lg'
+                    : 'border-gray-200 bg-white hover:border-gray-300 hover:shadow-md'
+                }`}
+              >
+                <category.icon 
+                  className={`mx-auto mb-2 ${selectedCategory === key ? 'text-blue-600' : 'text-gray-600'}`} 
+                  size={20} 
+                />
+                <div className={`text-xs sm:text-sm font-medium ${selectedCategory === key ? 'text-blue-900' : 'text-gray-700'}`}>
+                  {category.name}
+                </div>
+              </button>
+            ))}
+          </div>
+          
+          {selectedCategory !== 'all' && (
+            <div className="mt-4 text-center">
+              <p className="text-gray-600 text-sm sm:text-base">
+                {categories[selectedCategory].description}
+              </p>
+            </div>
+          )}
+        </div>
+
         {/* Style Selector Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-12 sm:mb-16">
-          {Object.entries(designs).map(([key, design]) => (
+          {filteredDesigns.map(([key, design]) => (
             <button
               key={key}
               onClick={() => setSelectedDesign(key as DesignKey)}
@@ -214,6 +396,17 @@ module.exports = {
                   : 'border-gray-200 bg-white hover:border-gray-300 hover:shadow-lg hover:scale-102'
               }`}
             >
+              {/* Category Badge */}
+              <div className="absolute top-4 right-4">
+                <span className={`px-2 py-1 text-xs font-medium rounded-full ${
+                  selectedDesign === key 
+                    ? 'bg-blue-100 text-blue-700' 
+                    : 'bg-gray-100 text-gray-600'
+                }`}>
+                  {categories[design.category]?.name || 'Other'}
+                </span>
+              </div>
+
               {/* Background Pattern */}
               <div className="absolute inset-0 opacity-5">
                 <div className="w-full h-full bg-gradient-to-br from-gray-900 to-transparent"></div>
@@ -221,9 +414,9 @@ module.exports = {
               
               <div className="relative">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-bold text-lg sm:text-xl text-gray-900">{design.name}</h3>
+                  <h3 className="font-bold text-lg sm:text-xl text-gray-900 pr-16">{design.name}</h3>
                   {selectedDesign === key && (
-                    <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
+                    <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center absolute top-0 right-0">
                       <Check className="text-white" size={16} />
                     </div>
                   )}
@@ -291,6 +484,17 @@ module.exports = {
               </h3>
               
               <div className="space-y-4 sm:space-y-6">
+                <div>
+                  <h4 className="text-base sm:text-lg font-semibold text-gray-800 mb-2">Category</h4>
+                  <div className="flex items-center space-x-2">
+                    {React.createElement(categories[currentDesign.category]?.icon || Palette, { 
+                      size: 16, 
+                      className: "text-blue-600" 
+                    })}
+                    <span className="text-blue-600 font-medium">{categories[currentDesign.category]?.name}</span>
+                  </div>
+                </div>
+
                 <div>
                   <h4 className="text-base sm:text-lg font-semibold text-gray-800 mb-2">Emotional Impact</h4>
                   <p className="text-gray-600 text-sm sm:text-base">{currentDesign.personality}</p>
@@ -425,51 +629,6 @@ module.exports = {
                     <p className="text-blue-700 text-xs sm:text-sm">{currentDesign.notes}</p>
                   </div>
 
-                  <div>
-                    <h4 className="font-semibold text-gray-800 mb-3 text-sm sm:text-base">Key Utility Classes:</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {selectedDesign === 'friendly-approachable' && (
-                        <>
-                          <span className="bg-orange-100 text-orange-800 px-2 sm:px-3 py-1 rounded-full text-xs">rounded-3xl</span>
-                          <span className="bg-orange-100 text-orange-800 px-2 sm:px-3 py-1 rounded-full text-xs">from-orange-400</span>
-                          <span className="bg-orange-100 text-orange-800 px-2 sm:px-3 py-1 rounded-full text-xs">backdrop-blur-sm</span>
-                          <span className="bg-orange-100 text-orange-800 px-2 sm:px-3 py-1 rounded-full text-xs">shadow-soft</span>
-                        </>
-                      )}
-                      {selectedDesign === 'professional-brutalism' && (
-                        <>
-                          <span className="bg-slate-100 text-slate-800 px-2 sm:px-3 py-1 rounded-full text-xs">border-6</span>
-                          <span className="bg-slate-100 text-slate-800 px-2 sm:px-3 py-1 rounded-full text-xs">font-black</span>
-                          <span className="bg-slate-100 text-slate-800 px-2 sm:px-3 py-1 rounded-full text-xs">shadow-pro-brutal</span>
-                          <span className="bg-slate-100 text-slate-800 px-2 sm:px-3 py-1 rounded-full text-xs">bg-slate-900</span>
-                        </>
-                      )}
-                      {selectedDesign === 'clean-lab' && (
-                        <>
-                          <span className="bg-blue-100 text-blue-800 px-2 sm:px-3 py-1 rounded-full text-xs">shadow-lab</span>
-                          <span className="bg-blue-100 text-blue-800 px-2 sm:px-3 py-1 rounded-full text-xs">text-lab-blue</span>
-                          <span className="bg-blue-100 text-blue-800 px-2 sm:px-3 py-1 rounded-full text-xs">rounded-xl</span>
-                          <span className="bg-blue-100 text-blue-800 px-2 sm:px-3 py-1 rounded-full text-xs">border-gray-100</span>
-                        </>
-                      )}
-                      {selectedDesign === 'neo-brutalism' && (
-                        <>
-                          <span className="bg-gray-100 text-gray-800 px-2 sm:px-3 py-1 rounded-full text-xs">text-electric</span>
-                          <span className="bg-gray-100 text-gray-800 px-2 sm:px-3 py-1 rounded-full text-xs">bg-neon-green</span>
-                          <span className="bg-gray-100 text-gray-800 px-2 sm:px-3 py-1 rounded-full text-xs">shadow-brutal</span>
-                          <span className="bg-gray-100 text-gray-800 px-2 sm:px-3 py-1 rounded-full text-xs">border-8</span>
-                        </>
-                      )}
-                      {(selectedDesign === 'human-centric' || selectedDesign === 'refined-brutalism' || selectedDesign === 'data-minimalism') && (
-                        <>
-                          <span className="bg-gray-100 text-gray-800 px-2 sm:px-3 py-1 rounded-full text-xs">font-mono</span>
-                          <span className="bg-gray-100 text-gray-800 px-2 sm:px-3 py-1 rounded-full text-xs">text-data-blue</span>
-                          <span className="bg-gray-100 text-gray-800 px-2 sm:px-3 py-1 rounded-full text-xs">border-gray-200</span>
-                        </>
-                      )}
-                    </div>
-                  </div>
-
                   <div className="pt-4 border-t border-gray-200">
                     <p className="text-xs sm:text-sm text-gray-600 mb-4">
                       Want to see this style in action? Check out the full implementation:
@@ -491,49 +650,67 @@ module.exports = {
             </div>
           </div>
 
-          {/* Quick Decision Helper */}
+          {/* Category-Based Recommendations */}
           <div className="bg-gradient-to-r from-purple-50 to-blue-50 rounded-2xl p-6 sm:p-8">
-            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6 text-center">Still Deciding?</h3>
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6 text-center">Choose by Your Industry</h3>
             
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
               <div className="bg-white rounded-xl p-4 sm:p-6 text-center shadow-sm">
-                <div className="text-2xl sm:text-3xl mb-2 sm:mb-3">🤝</div>
-                <h4 className="font-bold mb-2 text-sm sm:text-base">Building Trust</h4>
-                <p className="text-xs sm:text-sm text-gray-600">Choose <strong>Friendly & Approachable</strong></p>
-              </div>
-              
-              <div className="bg-white rounded-xl p-4 sm:p-6 text-center shadow-sm">
-                <div className="text-2xl sm:text-3xl mb-2 sm:mb-3">💼</div>
-                <h4 className="font-bold mb-2 text-sm sm:text-base">Enterprise Sales</h4>
-                <p className="text-xs sm:text-sm text-gray-600">Choose <strong>Professional Brutalism</strong></p>
-              </div>
-              
-              <div className="bg-white rounded-xl p-4 sm:p-6 text-center shadow-sm">
-                <div className="text-2xl sm:text-3xl mb-2 sm:mb-3">📊</div>
-                <h4 className="font-bold mb-2 text-sm sm:text-base">Technical Tools</h4>
-                <p className="text-xs sm:text-sm text-gray-600">Choose <strong>Clean Lab</strong> or <strong>Data Minimalism</strong></p>
+                <div className="text-2xl sm:text-3xl mb-2 sm:mb-3">🏢</div>
+                <h4 className="font-bold mb-2 text-sm sm:text-base">Corporate & B2B</h4>
+                <p className="text-xs sm:text-sm text-gray-600">Choose <strong>Professional Brutalism</strong> or <strong>Modern Minimalist</strong></p>
               </div>
               
               <div className="bg-white rounded-xl p-4 sm:p-6 text-center shadow-sm">
                 <div className="text-2xl sm:text-3xl mb-2 sm:mb-3">🎨</div>
-                <h4 className="font-bold mb-2 text-sm sm:text-base">Creative Impact</h4>
-                <p className="text-xs sm:text-sm text-gray-600">Choose <strong>Neo-Brutalism</strong></p>
+                <h4 className="font-bold mb-2 text-sm sm:text-base">Creative Agencies</h4>
+                <p className="text-xs sm:text-sm text-gray-600">Choose <strong>Neo-Brutalism</strong> or <strong>Refined Brutalism</strong></p>
+              </div>
+              
+              <div className="bg-white rounded-xl p-4 sm:p-6 text-center shadow-sm">
+                <div className="text-2xl sm:text-3xl mb-2 sm:mb-3">💻</div>
+                <h4 className="font-bold mb-2 text-sm sm:text-base">Tech & SaaS</h4>
+                <p className="text-xs sm:text-sm text-gray-600">Choose <strong>Sleek Dark Mode</strong> or <strong>VS Code Style</strong></p>
+              </div>
+              
+              <div className="bg-white rounded-xl p-4 sm:p-6 text-center shadow-sm">
+                <div className="text-2xl sm:text-3xl mb-2 sm:mb-3">🏥</div>
+                <h4 className="font-bold mb-2 text-sm sm:text-base">Healthcare & Education</h4>
+                <p className="text-xs sm:text-sm text-gray-600">Choose <strong>Human-Centric</strong> or <strong>Friendly & Approachable</strong></p>
+              </div>
+              
+              <div className="bg-white rounded-xl p-4 sm:p-6 text-center shadow-sm">
+                <div className="text-2xl sm:text-3xl mb-2 sm:mb-3">🎮</div>
+                <h4 className="font-bold mb-2 text-sm sm:text-base">Gaming & Entertainment</h4>
+                <p className="text-xs sm:text-sm text-gray-600">Choose <strong>80s Retro</strong> or <strong>Playful & Whimsical</strong></p>
+              </div>
+              
+              <div className="bg-white rounded-xl p-4 sm:p-6 text-center shadow-sm">
+                <div className="text-2xl sm:text-3xl mb-2 sm:mb-3">📰</div>
+                <h4 className="font-bold mb-2 text-sm sm:text-base">Publishing & Content</h4>
+                <p className="text-xs sm:text-sm text-gray-600">Choose <strong>Editorial Layout</strong> or <strong>Clean Lab</strong></p>
               </div>
             </div>
 
             <div className="text-center">
               <p className="text-base sm:text-lg text-gray-700 mb-4 sm:mb-6">
-                <strong>Pro tip:</strong> Consider your primary audience and the action you want them to take.
+                <strong>Not sure?</strong> Consider your primary audience and the action you want them to take.
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
                 <button 
-                  onClick={() => setSelectedDesign('friendly-approachable')}
+                  onClick={() => {
+                    setSelectedCategory('friendly');
+                    setSelectedDesign('friendly-approachable');
+                  }}
                   className="px-4 sm:px-6 py-2 sm:py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors font-medium text-sm sm:text-base"
                 >
                   👥 Prioritize User Comfort
                 </button>
                 <button 
-                  onClick={() => setSelectedDesign('professional-brutalism')}
+                  onClick={() => {
+                    setSelectedCategory('business');
+                    setSelectedDesign('professional-brutalism');
+                  }}
                   className="px-4 sm:px-6 py-2 sm:py-3 bg-slate-700 text-white rounded-lg hover:bg-slate-800 transition-colors font-medium text-sm sm:text-base"
                 >
                   💪 Show Authority & Results

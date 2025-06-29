@@ -6,6 +6,12 @@ import DataMinimalism from './designtool-components/DataMinimalism';
 import ProfessionalBrutalism from './designtool-components/ProfessionalBrutalism';
 import RefinedBrutalism from './designtool-components/RefinedBrutalism';
 import FriendlyApproachable from './designtool-components/FriendlyApproachable';
+import ModernMinimalist from './designtool-components/ModernMinimalist';
+import PlayfulWhimsical from './designtool-components/PlayfulWhimsical';
+import SleekDarkMode from './designtool-components/SleekDarkMode';
+import EightiesRetro from './designtool-components/EightiesRetro';
+import EditorialLayout from './designtool-components/EditorialLayout';
+import VSCodeStyle from './designtool-components/VSCodeStyle';
 import DesignComparison from './designtool-components/DesignComparison';
 import Navigation from './designtool-components/Navigation';
 import './design-tool.css'; // Import scoped styles
@@ -23,6 +29,12 @@ function DesignToolApp() {
     { id: 'neo-brutalism', name: 'Neo-Brutalism', component: NeoBrutalism },
     { id: 'human-centric', name: 'Human-Centric', component: HumanCentric },
     { id: 'data-minimalism', name: 'Data Minimalism', component: DataMinimalism },
+    { id: 'modern-minimalist', name: 'Modern Minimalist', component: ModernMinimalist },
+    { id: 'playful-whimsical', name: 'Playful & Whimsical', component: PlayfulWhimsical },
+    { id: 'sleek-dark-mode', name: 'Sleek Dark Mode', component: SleekDarkMode },
+    { id: 'eighties-retro', name: '80s Retro', component: EightiesRetro },
+    { id: 'editorial-layout', name: 'Editorial/Magazine', component: EditorialLayout },
+    { id: 'vscode-style', name: 'VS Code Style', component: VSCodeStyle },
   ];
 
   // Listen for navigation events from the design comparison

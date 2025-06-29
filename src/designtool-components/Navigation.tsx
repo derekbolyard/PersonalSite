@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { Menu, X, ChevronDown, Building2, Gamepad2, Laptop, Paintbrush, Users, Palette } from 'lucide-react';
 
 interface NavigationProps {
   styles: Array<{
@@ -16,6 +16,40 @@ const Navigation: React.FC<NavigationProps> = ({ styles, activeStyle, onStyleCha
   const [desktopDropdownOpen, setDesktopDropdownOpen] = useState(false);
 
   const currentStyleName = styles.find(style => style.id === activeStyle)?.name || 'Choose Your Style';
+
+  // Categorize styles
+  const categories = {
+    overview: {
+      name: 'Overview',
+      icon: Palette,
+      styles: ['design-comparison']
+    },
+    business: {
+      name: 'Business & Professional',
+      icon: Building2,
+      styles: ['modern-minimalist', 'professional-brutalism', 'editorial-layout', 'clean-lab']
+    },
+    creative: {
+      name: 'Creative & Artistic',
+      icon: Paintbrush,
+      styles: ['refined-brutalism', 'neo-brutalism']
+    },
+    technical: {
+      name: 'Technical & Developer',
+      icon: Laptop,
+      styles: ['data-minimalism', 'vscode-style', 'sleek-dark-mode']
+    },
+    friendly: {
+      name: 'User-Friendly',
+      icon: Users,
+      styles: ['friendly-approachable', 'human-centric']
+    },
+    entertainment: {
+      name: 'Entertainment & Gaming',
+      icon: Gamepad2,
+      styles: ['playful-whimsical', 'eighties-retro']
+    }
+  };
 
   // Prevent body scroll when mobile menu is open
   useEffect(() => {
@@ -105,33 +139,38 @@ const Navigation: React.FC<NavigationProps> = ({ styles, activeStyle, onStyleCha
 
                 {/* Dropdown Menu */}
                 {desktopDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50">
-                    <div className="px-4 py-2 border-b border-gray-100">
-                      <p className="text-sm font-medium text-gray-500">Choose Design Style</p>
-                    </div>
-                    <div className="max-h-96 overflow-y-auto">
-                      {styles.map((style) => (
-                        <button
-                          key={style.id}
-                          onClick={() => handleStyleSelect(style.id)}
-                          className={`w-full text-left px-4 py-3 hover:bg-gray-50 transition-colors flex items-center justify-between ${
-                            activeStyle === style.id
-                              ? 'bg-blue-50 text-blue-700 border-r-4 border-blue-600'
-                              : 'text-gray-700'
-                          }`}
-                        >
-                          <div>
-                            <div className="font-medium">{style.name}</div>
-                            {style.id === 'design-comparison' && (
-                              <div className="text-sm text-gray-500 mt-1">Compare all design styles</div>
-                            )}
+                  <div className="absolute right-0 mt-2 w-96 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50 max-h-96 overflow-y-auto">
+                    {Object.entries(categories).map(([categoryKey, category]) => (
+                      <div key={categoryKey} className="mb-2">
+                        <div className="px-4 py-2 border-b border-gray-100 bg-gray-50">
+                          <div className="flex items-center space-x-2">
+                            <category.icon size={16} className="text-gray-600" />
+                            <p className="text-sm font-semibold text-gray-700">{category.name}</p>
                           </div>
-                          {activeStyle === style.id && (
-                            <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-                          )}
-                        </button>
-                      ))}
-                    </div>
+                        </div>
+                        {category.styles.map((styleId) => {
+                          const style = styles.find(s => s.id === styleId);
+                          if (!style) return null;
+                          
+                          return (
+                            <button
+                              key={style.id}
+                              onClick={() => handleStyleSelect(style.id)}
+                              className={`w-full text-left px-6 py-2 hover:bg-gray-50 transition-colors flex items-center justify-between ${
+                                activeStyle === style.id
+                                  ? 'bg-blue-50 text-blue-700 border-r-4 border-blue-600'
+                                  : 'text-gray-700'
+                              }`}
+                            >
+                              <div className="font-medium text-sm">{style.name}</div>
+                              {activeStyle === style.id && (
+                                <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                              )}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    ))}
                   </div>
                 )}
               </div>
@@ -170,26 +209,36 @@ const Navigation: React.FC<NavigationProps> = ({ styles, activeStyle, onStyleCha
                 <p className="text-base font-semibold text-gray-900 truncate">{currentStyleName}</p>
               </div>
               
-              {/* Menu Items */}
+              {/* Menu Items by Category */}
               <div className="flex-1 overflow-y-auto">
-                <div className="py-2">
-                  {styles.map((style) => (
-                    <button
-                      key={style.id}
-                      onClick={() => handleStyleSelect(style.id)}
-                      className={`w-full text-left px-4 py-4 hover:bg-gray-50 transition-colors border-l-4 ${
-                        activeStyle === style.id
-                          ? 'bg-blue-50 text-blue-700 border-blue-600 font-medium'
-                          : 'text-gray-700 border-transparent hover:border-gray-200'
-                      }`}
-                    >
-                      <div className="font-medium text-base">{style.name}</div>
-                      {style.id === 'design-comparison' && (
-                        <div className="text-sm text-gray-500 mt-1">Compare all design styles</div>
-                      )}
-                    </button>
-                  ))}
-                </div>
+                {Object.entries(categories).map(([categoryKey, category]) => (
+                  <div key={categoryKey} className="border-b border-gray-100">
+                    <div className="px-4 py-3 bg-gray-50">
+                      <div className="flex items-center space-x-2">
+                        <category.icon size={16} className="text-gray-600" />
+                        <h3 className="text-sm font-semibold text-gray-700">{category.name}</h3>
+                      </div>
+                    </div>
+                    {category.styles.map((styleId) => {
+                      const style = styles.find(s => s.id === styleId);
+                      if (!style) return null;
+                      
+                      return (
+                        <button
+                          key={style.id}
+                          onClick={() => handleStyleSelect(style.id)}
+                          className={`w-full text-left px-6 py-3 hover:bg-gray-50 transition-colors border-l-4 ${
+                            activeStyle === style.id
+                              ? 'bg-blue-50 text-blue-700 border-blue-600 font-medium'
+                              : 'text-gray-700 border-transparent hover:border-gray-200'
+                          }`}
+                        >
+                          <div className="font-medium text-sm">{style.name}</div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                ))}
               </div>
             </div>
           </div>
