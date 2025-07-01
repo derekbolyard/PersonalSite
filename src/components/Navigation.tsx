@@ -15,11 +15,6 @@ export default function Navigation({ currentPage, onPageChange }: NavigationProp
   const pages = [
     { id: 'home', name: 'Portfolio', icon: Home },
     { id: 'services', name: 'Services', icon: Briefcase },
-    { id: 'eyes', name: 'Eye Tracker', icon: Eye },
-    { id: 'terminal', name: 'Retro Terminal', icon: Terminal },
-    { id: 'glitch', name: 'Glitch Art', icon: Zap },
-    { id: 'space', name: 'Space Explorer', icon: Rocket },
-    { id: 'doom', name: 'DOOM Game', icon: Target }
   ];
 
   const handlePageChange = (pageId: string) => {
