@@ -328,8 +328,8 @@ module.exports = {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 relative z-0">
       {/* Hero Section */}
-      <div className="bg-white/80 backdrop-blur-sm border-b border-gray-200">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+      <div className="bg-white/80 backdrop-blur-sm border-b border-gray-200 pt-4">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12 mt-4">
           <div className="text-center">
             <div className="flex justify-center mb-4 sm:mb-6">
               <div className="flex items-center space-x-2 sm:space-x-3">
