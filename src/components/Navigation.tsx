@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Home, Menu, X, Briefcase } from 'lucide-react';
+import { Home, Menu, X, Briefcase, Palette } from 'lucide-react';
 
 interface NavigationProps {
   currentPage: string;
@@ -13,6 +13,7 @@ export default function Navigation({ currentPage, onPageChange }: NavigationProp
   const pages = [
     { id: 'home', name: 'Portfolio', icon: Home },
     { id: 'services', name: 'Services', icon: Briefcase },
+    { id: 'design', name: 'Design Tool', icon: Palette },
   ];
 
   const handlePageChange = (pageId: string) => {  
@@ -49,6 +50,7 @@ export default function Navigation({ currentPage, onPageChange }: NavigationProp
           {pages.map((page) => {
             const Icon = page.icon;
             const isServices = page.id === 'services';
+            const isDesign = page.id === 'design';
             const isActive = (page.id === 'home' && currentPage === '/') || 
                            (page.id !== 'home' && currentPage === `/${page.id}`);
             
@@ -60,6 +62,8 @@ export default function Navigation({ currentPage, onPageChange }: NavigationProp
                   isActive
                     ? isServices
                       ? 'bg-green-600 text-white shadow-lg shadow-green-600/25'
+                      : isDesign
+                      ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/25'
                       : 'bg-blue-500 text-white shadow-lg shadow-blue-500/25'
                     : 'text-white hover:bg-white/20 hover:text-white'
                 } ${isCollapsed ? 'justify-center px-2' : ''}`}
@@ -74,10 +78,15 @@ export default function Navigation({ currentPage, onPageChange }: NavigationProp
                   {page.name}
                 </span>
                 
-                {/* Services indicator */}
+                {/* Page-specific indicators */}
                 {isServices && isActive && (
                   <div className="absolute -top-1 -right-1 text-xs animate-pulse">
                     💼
+                  </div>
+                )}
+                {isDesign && isActive && (
+                  <div className="absolute -top-1 -right-1 text-xs animate-pulse">
+                    🎨
                   </div>
                 )}
               </button>
@@ -119,6 +128,7 @@ export default function Navigation({ currentPage, onPageChange }: NavigationProp
               {pages.map((page) => {
                 const Icon = page.icon;
                 const isServices = page.id === 'services';
+                const isDesign = page.id === 'design';
                 const isActive = (page.id === 'home' && currentPage === '/') || 
                                (page.id !== 'home' && currentPage === `/${page.id}`);
                 
@@ -130,6 +140,8 @@ export default function Navigation({ currentPage, onPageChange }: NavigationProp
                       isActive
                         ? isServices
                           ? 'bg-green-600 text-white shadow-lg shadow-green-600/25'
+                          : isDesign
+                          ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/25'
                           : 'bg-blue-500 text-white shadow-lg shadow-blue-500/25'
                         : 'text-white hover:bg-white/10 hover:text-white'
                     }`}
@@ -141,10 +153,15 @@ export default function Navigation({ currentPage, onPageChange }: NavigationProp
                       {page.name}
                     </span>
                     
-                    {/* Services indicator */}
+                    {/* Page-specific indicators */}
                     {isServices && isActive && (
                       <div className="absolute top-2 right-2 text-sm animate-pulse">
                         💼
+                      </div>
+                    )}
+                    {isDesign && isActive && (
+                      <div className="absolute top-2 right-2 text-sm animate-pulse">
+                        🎨
                       </div>
                     )}
                     
