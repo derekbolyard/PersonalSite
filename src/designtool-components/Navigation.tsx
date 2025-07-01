@@ -99,7 +99,7 @@ const Navigation: React.FC<NavigationProps> = ({ styles, activeStyle, onStyleCha
   return (
     <>
       {/* Navigation Header */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-50">
+      <div className="bg-white border-b border-gray-200 sticky top-0 z-[60]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Mobile Navigation */}
           <div className="flex items-center justify-between py-4 md:hidden">
@@ -124,7 +124,7 @@ const Navigation: React.FC<NavigationProps> = ({ styles, activeStyle, onStyleCha
               <h1 className="text-xl font-bold text-gray-900">Design Style Comparison Tool</h1>
               
               {/* Desktop Dropdown */}
-              <div className="relative desktop-dropdown">
+              <div className="relative desktop-dropdown z-[70]">
                 <button
                   onClick={toggleDesktopDropdown}
                   className="flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
@@ -139,7 +139,7 @@ const Navigation: React.FC<NavigationProps> = ({ styles, activeStyle, onStyleCha
 
                 {/* Dropdown Menu */}
                 {desktopDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-96 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50 max-h-96 overflow-y-auto">
+                  <div className="absolute right-0 mt-2 w-96 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-[80] max-h-96 overflow-y-auto">
                     {Object.entries(categories).map(([categoryKey, category]) => (
                       <div key={categoryKey} className="mb-2">
                         <div className="px-4 py-2 border-b border-gray-100 bg-gray-50">
@@ -181,7 +181,7 @@ const Navigation: React.FC<NavigationProps> = ({ styles, activeStyle, onStyleCha
 
       {/* Mobile Menu Overlay */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-40 md:hidden">
+        <div className="fixed inset-0 z-[70] md:hidden">
           {/* Backdrop */}
           <div 
             className="fixed inset-0 bg-black bg-opacity-25"
@@ -189,7 +189,7 @@ const Navigation: React.FC<NavigationProps> = ({ styles, activeStyle, onStyleCha
           />
           
           {/* Menu Panel */}
-          <div className="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-white shadow-xl transform transition-transform duration-300 ease-in-out">
+          <div className="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-white shadow-xl transform transition-transform duration-300 ease-in-out z-[80]">
             <div className="flex flex-col h-full">
               {/* Menu Header */}
               <div className="flex items-center justify-between p-4 border-b border-gray-200">
