@@ -50,7 +50,6 @@ export default function Navigation({ currentPage, onPageChange }: NavigationProp
 
           {pages.map((page) => {
             const Icon = page.icon;
-            const isDoom = page.id === 'doom';
             const isServices = page.id === 'services';
             const isActive = (page.id === 'home' && currentPage === '/') || 
                            (page.id !== 'home' && currentPage === `/${page.id}`);
