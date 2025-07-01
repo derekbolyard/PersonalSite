@@ -54,7 +54,7 @@ function DesignToolApp() {
   };
 
   return (
-    <div className="design-tool-container min-h-screen bg-gray-50">
+    <div className="design-tool-container min-h-screen bg-gray-50 relative">
       <Navigation 
         styles={styles}
         activeStyle={activeStyle}
@@ -62,7 +62,9 @@ function DesignToolApp() {
       />
 
       {/* Active Style Component */}
-      <ActiveComponent />
+      <div className="relative z-0">
+        <ActiveComponent />
+      </div>
     </div>
   );
 }
