@@ -3,8 +3,8 @@ import AppRouter from './AppRouter';
 import Navigation from './components/Navigation';
 
 export default function App() {
-  const navigate  = useNavigate();
-  const location  = useLocation();
+  const navigate = useNavigate();
+  const location = useLocation();
   const { pathname } = useLocation();
   const hideNav = pathname.startsWith('/design');
 

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Home, Eye, Terminal, Zap, Rocket, Target, Menu, X, Briefcase } from 'lucide-react';
-import { useAudio } from '../hooks/useAudio';
+import { Home, Menu, X, Briefcase } from 'lucide-react';
 
 interface NavigationProps {
   currentPage: string;
@@ -10,7 +9,6 @@ interface NavigationProps {
 export default function Navigation({ currentPage, onPageChange }: NavigationProps) {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { playHailToTheKing } = useAudio();
 
   const pages = [
     { id: 'home', name: 'Portfolio', icon: Home },
@@ -60,9 +58,7 @@ export default function Navigation({ currentPage, onPageChange }: NavigationProp
                 onClick={() => handlePageChange(page.id)}
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 group relative ${
                   isActive
-                    ? isDoom 
-                      ? 'bg-red-600 text-white shadow-lg shadow-red-600/25 animate-pulse' 
-                      : isServices
+                    ? isServices
                       ? 'bg-green-600 text-white shadow-lg shadow-green-600/25'
                       : 'bg-blue-500 text-white shadow-lg shadow-blue-500/25'
                     : 'text-white hover:bg-white/20 hover:text-white'
@@ -70,9 +66,7 @@ export default function Navigation({ currentPage, onPageChange }: NavigationProp
                 title={page.name}
               >
                 <Icon className={`w-5 h-5 ${
-                  isActive 
-                    ? isDoom ? 'animate-bounce' : 'animate-pulse' 
-                    : 'group-hover:scale-110'
+                  isActive ? 'animate-pulse' : 'group-hover:scale-110'
                 } transition-transform`} />
                 <span className={`font-medium whitespace-nowrap transition-all duration-300 ${
                   isCollapsed ? 'opacity-0 w-0 overflow-hidden' : 'opacity-100'
@@ -80,12 +74,7 @@ export default function Navigation({ currentPage, onPageChange }: NavigationProp
                   {page.name}
                 </span>
                 
-                {/* Special indicators */}
-                {isDoom && isActive && (
-                  <div className="absolute -top-1 -right-1 text-xs animate-pulse">
-                    💀
-                  </div>
-                )}
+                {/* Services indicator */}
                 {isServices && isActive && (
                   <div className="absolute -top-1 -right-1 text-xs animate-pulse">
                     💼
@@ -129,7 +118,6 @@ export default function Navigation({ currentPage, onPageChange }: NavigationProp
             <div className="space-y-2">
               {pages.map((page) => {
                 const Icon = page.icon;
-                const isDoom = page.id === 'doom';
                 const isServices = page.id === 'services';
                 const isActive = (page.id === 'home' && currentPage === '/') || 
                                (page.id !== 'home' && currentPage === `/${page.id}`);
@@ -140,29 +128,20 @@ export default function Navigation({ currentPage, onPageChange }: NavigationProp
                     onClick={() => handlePageChange(page.id)}
                     className={`w-full flex items-center gap-4 px-4 py-4 rounded-xl transition-all duration-300 group relative ${
                       isActive
-                        ? isDoom 
-                          ? 'bg-red-600 text-white shadow-lg shadow-red-600/25' 
-                          : isServices
+                        ? isServices
                           ? 'bg-green-600 text-white shadow-lg shadow-green-600/25'
                           : 'bg-blue-500 text-white shadow-lg shadow-blue-500/25'
                         : 'text-white hover:bg-white/10 hover:text-white'
                     }`}
                   >
                     <Icon className={`w-6 h-6 ${
-                      isActive 
-                        ? isDoom ? 'animate-bounce' : 'animate-pulse' 
-                        : 'group-hover:scale-110'
+                      isActive ? 'animate-pulse' : 'group-hover:scale-110'
                     } transition-transform`} />
                     <span className="font-medium text-lg">
                       {page.name}
                     </span>
                     
-                    {/* Special indicators */}
-                    {isDoom && isActive && (
-                      <div className="absolute top-2 right-2 text-sm animate-pulse">
-                        💀
-                      </div>
-                    )}
+                    {/* Services indicator */}
                     {isServices && isActive && (
                       <div className="absolute top-2 right-2 text-sm animate-pulse">
                         💼
