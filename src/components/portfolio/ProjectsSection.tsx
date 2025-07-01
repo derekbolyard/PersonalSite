@@ -111,7 +111,7 @@ export default function ProjectsSection({ isDarkMode }: ProjectsSectionProps) {
                         key={tech}
                         className={`px-3 py-1 text-sm rounded-full font-medium transition-all duration-300 hover:scale-105 ${
                           isAccessLens
-                            ? 'bg-blue-500/30 text-blue-700 hover:bg-blue-500/40 border border-blue-300/50'
+                            ? 'bg-blue-600 text-white hover:bg-blue-700 border border-blue-500 shadow-md font-semibold'
                             : 
                           isDarkMode 
                             ? 'bg-blue-500/20 text-blue-300 hover:bg-blue-500/30' 
