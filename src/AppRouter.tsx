@@ -1,6 +1,7 @@
 // src/AppRouter.tsx
 import { Routes, Route } from 'react-router-dom';
 import PortfolioPage   from './pages/PortfolioPage';
+import ServicesPage    from './pages/ServicesPage';
 import EyeTracker      from './components/EyeTracker';
 import RetroTerminal   from './components/RetroTerminal';
 import SpaceExplorer   from './components/SpaceExplorer';
@@ -12,6 +13,7 @@ export default function AppRouter() {
   return (
       <Routes>
         <Route path="/"          element={<PortfolioPage />} />
+        <Route path="/services"  element={<ServicesPage />} />
         <Route path="/eyes"      element={<EyeTracker   />} />
         <Route path="/terminal"  element={<RetroTerminal />} />
         <Route path="/glitch"    element={<GlitchArt     />} />

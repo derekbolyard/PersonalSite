@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Home, Eye, Terminal, Zap, Rocket, Target, Menu, X } from 'lucide-react';
+import { Home, Eye, Terminal, Zap, Rocket, Target, Menu, X, Briefcase } from 'lucide-react';
 import { useAudio } from '../hooks/useAudio';
 
 interface NavigationProps {
@@ -14,6 +14,7 @@ export default function Navigation({ currentPage, onPageChange }: NavigationProp
 
   const pages = [
     { id: 'home', name: 'Portfolio', icon: Home },
+    { id: 'services', name: 'Services', icon: Briefcase },
     { id: 'eyes', name: 'Eye Tracker', icon: Eye },
     { id: 'terminal', name: 'Retro Terminal', icon: Terminal },
     { id: 'glitch', name: 'Glitch Art', icon: Zap },
@@ -30,7 +31,14 @@ export default function Navigation({ currentPage, onPageChange }: NavigationProp
         console.log('Audio playback failed (user interaction required):', error);
       }
     }
-    onPageChange(pageId);
+    
+    // Handle routing
+    if (pageId === 'home') {
+      onPageChange('/');
+    } else {
+      onPageChange(`/${pageId}`);
+    }
+    
     setIsMobileMenuOpen(false); // Close mobile menu after selection
   };
 
@@ -57,22 +65,27 @@ export default function Navigation({ currentPage, onPageChange }: NavigationProp
           {pages.map((page) => {
             const Icon = page.icon;
             const isDoom = page.id === 'doom';
+            const isServices = page.id === 'services';
+            const isActive = (page.id === 'home' && currentPage === '/') || 
+                           (page.id !== 'home' && currentPage === `/${page.id}`);
             
             return (
               <button
                 key={page.id}
                 onClick={() => handlePageChange(page.id)}
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 group relative ${
-                  currentPage === page.id
+                  isActive
                     ? isDoom 
                       ? 'bg-red-600 text-white shadow-lg shadow-red-600/25 animate-pulse' 
+                      : isServices
+                      ? 'bg-green-600 text-white shadow-lg shadow-green-600/25'
                       : 'bg-blue-500 text-white shadow-lg shadow-blue-500/25'
                     : 'text-white hover:bg-white/20 hover:text-white'
                 } ${isCollapsed ? 'justify-center px-2' : ''}`}
                 title={page.name}
               >
                 <Icon className={`w-5 h-5 ${
-                  currentPage === page.id 
+                  isActive 
                     ? isDoom ? 'animate-bounce' : 'animate-pulse' 
                     : 'group-hover:scale-110'
                 } transition-transform`} />
@@ -82,10 +95,15 @@ export default function Navigation({ currentPage, onPageChange }: NavigationProp
                   {page.name}
                 </span>
                 
-                {/* Special DOOM indicator */}
-                {isDoom && currentPage === page.id && (
+                {/* Special indicators */}
+                {isDoom && isActive && (
                   <div className="absolute -top-1 -right-1 text-xs animate-pulse">
                     💀
+                  </div>
+                )}
+                {isServices && isActive && (
+                  <div className="absolute -top-1 -right-1 text-xs animate-pulse">
+                    💼
                   </div>
                 )}
               </button>
@@ -127,21 +145,26 @@ export default function Navigation({ currentPage, onPageChange }: NavigationProp
               {pages.map((page) => {
                 const Icon = page.icon;
                 const isDoom = page.id === 'doom';
+                const isServices = page.id === 'services';
+                const isActive = (page.id === 'home' && currentPage === '/') || 
+                               (page.id !== 'home' && currentPage === `/${page.id}`);
                 
                 return (
                   <button
                     key={page.id}
                     onClick={() => handlePageChange(page.id)}
                     className={`w-full flex items-center gap-4 px-4 py-4 rounded-xl transition-all duration-300 group relative ${
-                      currentPage === page.id
+                      isActive
                         ? isDoom 
                           ? 'bg-red-600 text-white shadow-lg shadow-red-600/25' 
+                          : isServices
+                          ? 'bg-green-600 text-white shadow-lg shadow-green-600/25'
                           : 'bg-blue-500 text-white shadow-lg shadow-blue-500/25'
                         : 'text-white hover:bg-white/10 hover:text-white'
                     }`}
                   >
                     <Icon className={`w-6 h-6 ${
-                      currentPage === page.id 
+                      isActive 
                         ? isDoom ? 'animate-bounce' : 'animate-pulse' 
                         : 'group-hover:scale-110'
                     } transition-transform`} />
@@ -149,15 +172,20 @@ export default function Navigation({ currentPage, onPageChange }: NavigationProp
                       {page.name}
                     </span>
                     
-                    {/* Special DOOM indicator */}
-                    {isDoom && currentPage === page.id && (
+                    {/* Special indicators */}
+                    {isDoom && isActive && (
                       <div className="absolute top-2 right-2 text-sm animate-pulse">
                         💀
                       </div>
                     )}
+                    {isServices && isActive && (
+                      <div className="absolute top-2 right-2 text-sm animate-pulse">
+                        💼
+                      </div>
+                    )}
                     
                     {/* Active indicator */}
-                    {currentPage === page.id && (
+                    {isActive && (
                       <div className="absolute right-4 w-2 h-2 bg-white rounded-full animate-pulse" />
                     )}
                   </button>
