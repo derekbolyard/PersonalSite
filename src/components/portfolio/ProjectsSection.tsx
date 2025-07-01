@@ -55,6 +55,7 @@ export default function ProjectsSection({ isDarkMode }: ProjectsSectionProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project, index) => {
             const Icon = project.icon;
+            const isAccessLens = project.title === 'Access Lens';
             return (
               <div
                 key={project.title}
@@ -62,8 +63,9 @@ export default function ProjectsSection({ isDarkMode }: ProjectsSectionProps) {
                   isDarkMode 
                     ? 'bg-white/5 border-white/10 hover:border-purple-500/30' 
                     : 'bg-gray-50 border-gray-200 hover:border-purple-500/30 hover:shadow-purple-500/20'
-                }`}
+                } ${isAccessLens ? 'cursor-pointer' : ''}`}
                 style={{ animationDelay: `${index * 150}ms` }}
+                onClick={isAccessLens ? () => window.open('https://getaccesslens.com', '_blank', 'noopener,noreferrer') : undefined}
               >
                 <div className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-10 group-hover:opacity-20 transition-opacity duration-300`}></div>
                 
