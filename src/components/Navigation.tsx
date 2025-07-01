@@ -17,16 +17,7 @@ export default function Navigation({ currentPage, onPageChange }: NavigationProp
     { id: 'services', name: 'Services', icon: Briefcase },
   ];
 
-  const handlePageChange = (pageId: string) => {
-    // Play the iconic audio when navigating to DOOM
-    if (pageId === 'doom') {
-      try {
-        playHailToTheKing();
-      } catch (error) {
-        console.log('Audio playback failed (user interaction required):', error);
-      }
-    }
-    
+  const handlePageChange = (pageId: string) => {  
     // Handle routing
     if (pageId === 'home') {
       onPageChange('/');
