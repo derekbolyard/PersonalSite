@@ -18,7 +18,7 @@ const projects: Project[] = [
   {
     title: 'Access Lens',
     description: 'Revolutionary accessibility analysis platform that makes the web inclusive for everyone',
-    tech: ['React', 'TypeScript', 'AI/ML', 'WCAG'],
+    tech: ['.NET', 'Angular', 'Playwright', 'WCAG', 'Axe'],
     color: 'from-blue-500 to-purple-600',
     status: 'Coming Soon',
     icon: Shield
