@@ -20,7 +20,7 @@ const projects: Project[] = [
     description: 'Revolutionary accessibility analysis platform that makes the web inclusive for everyone',
     tech: ['.NET', 'Angular', 'Playwright', 'WCAG', 'Axe'],
     color: 'from-blue-500 to-purple-600',
-    status: 'Coming Soon',
+    status: 'Live',
     icon: Shield
   },
   {
@@ -67,26 +67,38 @@ export default function ProjectsSection({ isDarkMode }: ProjectsSectionProps) {
                 style={{ animationDelay: `${index * 150}ms` }}
                 onClick={isAccessLens ? () => window.open('https://getaccesslens.com', '_blank', 'noopener,noreferrer') : undefined}
               >
-                <div className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-10 group-hover:opacity-20 transition-opacity duration-300`}></div>
+                <div className={`absolute inset-0 bg-gradient-to-br ${project.color} ${isAccessLens ? 'opacity-20 group-hover:opacity-30' : 'opacity-10 group-hover:opacity-20'} transition-opacity duration-300`}></div>
                 
-                {/* Coming Soon Badge */}
-                <div className="absolute top-4 right-4 z-10">
-                  <div className="flex items-center gap-2 px-3 py-1 bg-gradient-to-r from-orange-500 to-red-500 text-white text-xs font-bold rounded-full animate-pulse">
-                    <Clock className="w-3 h-3" />
-                    {project.status}
+                {/* Status Badge */}
+                {project.status !== 'Live' && (
+                  <div className="absolute top-4 right-4 z-10">
+                    <div className="flex items-center gap-2 px-3 py-1 bg-gradient-to-r from-orange-500 to-red-500 text-white text-xs font-bold rounded-full animate-pulse">
+                      <Clock className="w-3 h-3" />
+                      {project.status}
+                    </div>
                   </div>
-                </div>
+                )}
+                
+                {/* Live Badge for Access Lens */}
+                {isAccessLens && (
+                  <div className="absolute top-4 right-4 z-10">
+                    <div className="flex items-center gap-2 px-3 py-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xs font-bold rounded-full shadow-lg">
+                      <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+                      LIVE
+                    </div>
+                  </div>
+                )}
                 
                 <div className="relative p-6">
                   {/* Project Icon */}
                   <div className="flex items-center gap-3 mb-4">
-                    <div className={`p-2 rounded-lg bg-gradient-to-br ${project.color} bg-opacity-20`}>
+                    <div className={`p-2 rounded-lg bg-gradient-to-br ${project.color} ${isAccessLens ? 'bg-opacity-30 shadow-lg' : 'bg-opacity-20'}`}>
                       <Icon className="w-6 h-6 text-white" />
                     </div>
-                    <h3 className="text-xl font-bold group-hover:text-blue-400 transition-colors duration-300">
+                    <h3 className={`text-xl font-bold transition-colors duration-300 ${isAccessLens ? 'text-blue-600 group-hover:text-blue-500' : 'group-hover:text-blue-400'}`}>
                       {project.title}
                     </h3>
-                    <ExternalLink className="w-5 h-5 text-gray-400 group-hover:text-blue-400 group-hover:animate-bounce transition-colors duration-300 opacity-50 ml-auto" />
+                    <ExternalLink className={`w-5 h-5 transition-colors duration-300 ml-auto ${isAccessLens ? 'text-blue-500 group-hover:text-blue-400 group-hover:animate-bounce opacity-100' : 'text-gray-400 group-hover:text-blue-400 group-hover:animate-bounce opacity-50'}`} />
                   </div>
                   
                   <p className={`mb-6 leading-relaxed ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
@@ -98,6 +110,9 @@ export default function ProjectsSection({ isDarkMode }: ProjectsSectionProps) {
                       <span
                         key={tech}
                         className={`px-3 py-1 text-sm rounded-full font-medium transition-all duration-300 hover:scale-105 ${
+                          isAccessLens
+                            ? 'bg-blue-500/30 text-blue-700 hover:bg-blue-500/40 border border-blue-300/50'
+                            : 
                           isDarkMode 
                             ? 'bg-blue-500/20 text-blue-300 hover:bg-blue-500/30' 
                             : 'bg-blue-100 text-blue-700 hover:bg-blue-200'
