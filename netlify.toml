@@ -1,4 +1,10 @@
 [[redirects]]
+  from   = "/stats/*"
+  to     = "https://plausible.io/:splat"
+  status = 200
+  force  = true
+  
+[[redirects]]
   from   = "/plausible/*"
   to     = "https://plausible.io/:splat"
   status = 200
@@ -14,3 +20,19 @@ force  = true
   from = "/*"
   to   = "/index.html"
   status = 200
+
+[build]
+  command = "npm run build && npm run build:docs"
+  publish = "netlify-dist"
+
+[[plugins]]
+  package = "@netlify/plugin-copy-files"
+  [plugins.inputs]
+    from = "build"
+    to   = "netlify-dist"
+
+[[plugins]]
+  package = "@netlify/plugin-copy-files"
+  [plugins.inputs]
+    from = "blog/dist"
+    to   = "netlify-dist/blog" 
