@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "vite build && npm run build:docs",
     "build:docs": "cd blog && npm run build",
+    "netlify-build": "npm run build && npm run build:docs && rm -rf netlify-dist && mkdir -p netlify-dist && cp -r build/* netlify-dist/ && cp -r docs/dist netlify-dist/docs",
     "lint": "eslint .",
     "preview": "vite preview"
   },

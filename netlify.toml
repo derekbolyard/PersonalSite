@@ -22,11 +22,5 @@ force  = true
   status = 200
 
 [build]
-  command = """
-    npm run build && \
-    npm run build:docs && \
-    rm -rf netlify-dist && mkdir -p netlify-dist && \
-    cp -r build/*       netlify-dist/          && \
-    cp -r blog/dist     netlify-dist/blog
-  """
+  command = "npm run netlify-build"
   publish = "netlify-dist"
