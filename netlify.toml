@@ -22,13 +22,11 @@ force  = true
   status = 200
 
 [build]
-  command = "npm run build && npm run build:docs"
+  command = """
+    npm run build && \
+    npm run build:docs && \
+    rm -rf netlify-dist && mkdir -p netlify-dist && \
+    cp -r build/*       netlify-dist/          && \
+    cp -r docs/dist     netlify-dist/docs
+  """
   publish = "netlify-dist"
-
-[[plugins]]
-  package = "@netlify/plugin-copy-files"
-   [plugins.inputs]
-    targets = [
-      { from = "build",      to = "netlify-dist"       },
-      { from = "docs/dist",  to = "netlify-dist/docs"  }
-    ]
