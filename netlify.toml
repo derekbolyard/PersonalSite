@@ -27,9 +27,8 @@ force  = true
 
 [[plugins]]
   package = "@netlify/plugin-copy-files"
-  [plugins.inputs]
-    from = "build"
-    to   = "netlify-dist"
-  [plugins.inputs]
-    from = "blog/dist"
-    to   = "netlify-dist/blog" 
+   [plugins.inputs]
+    targets = [
+      { from = "build",      to = "netlify-dist"       },
+      { from = "docs/dist",  to = "netlify-dist/docs"  }
+    ]
