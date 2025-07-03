@@ -8,10 +8,21 @@
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Ensure proper stacking context */
+  position: relative;
+  z-index: 0;
 }
 
 .design-tool-container * {
   box-sizing: border-box;
+}
+
+/* Force navigation to always be on top */
+.design-tool-container .navigation-header {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 9999 !important;
+  background: white !important;
 }
 
 /* Enhanced scrollbar hiding for navigation */

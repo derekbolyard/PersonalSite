@@ -1,4 +1,16 @@
 [[redirects]]
+  from   = "/plausible/*"
+  to     = "https://plausible.io/:splat"
+  status = 200
+  force  = true
+
+[[redirects]]
+from   = "/api/event"
+to     = "https://plausible.io/api/event"
+status = 200
+force  = true
+
+[[redirects]]
   from = "/*"
   to   = "/index.html"
   status = 200

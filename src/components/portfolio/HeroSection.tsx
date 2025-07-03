@@ -1,5 +1,5 @@
 import React from 'react';
-import { Code2, Rocket, Mail, Sparkles } from 'lucide-react';
+import { Code2, Rocket, Mail, Sparkles, Briefcase } from 'lucide-react';
 
 interface HeroSectionProps {
   currentTypeText: string;
@@ -23,6 +23,9 @@ export default function HeroSection({
   window.location.href = `mailto:derekbolyard@gmail.com?subject=${subject}&body=${body}`;
 };
 
+  const handleServicesClick = () => {
+    window.location.href = '/services';
+  };
 
   return (
     <section className="relative min-h-screen flex items-center justify-center px-6">
@@ -77,6 +80,17 @@ export default function HeroSection({
               </div>
             )}
           </button>
+          
+          <button 
+            onClick={handleServicesClick}
+            className="group px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg font-semibold hover:shadow-2xl hover:shadow-green-500/25 transition-all duration-300 transform hover:-translate-y-1 hover:scale-105"
+          >
+            <span className="flex items-center gap-2">
+              <Briefcase className="w-5 h-5 group-hover:animate-bounce" />
+              Hire Me
+            </span>
+          </button>
+          
           <button 
             onClick={handleGetInTouchClick}
             className="group px-8 py-4 border border-gray-600 rounded-lg font-semibold hover:bg-white/5 transition-all duration-300 transform hover:-translate-y-1 hover:scale-105 hover:border-blue-400"
