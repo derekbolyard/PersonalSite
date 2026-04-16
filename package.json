@@ -8,12 +8,13 @@
     "dev:all": "concurrently -n vite,astro -c blue,green \"vite\" \"cd blog && npm run dev\"",
     "build": "vite build && npm run build:docs",
     "build:docs": "cd blog && npm run build",
-    "netlify-build": "npm run build && cd blog && npm install && npm run build && cd .. && rm -rf netlify-dist && mkdir -p netlify-dist && cp -r dist/* netlify-dist/ && cp -r blog/dist netlify-dist/blog",
+    "netlify-build": "npm run build && npm run build:docs && rm -rf netlify-dist && mkdir -p netlify-dist && cp -r dist/* netlify-dist/ && cp -r blog/dist netlify-dist/blog",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "workspaces": [
-    "."
+    ".",
+    "blog"
   ],
   "dependencies": {
     "lucide-react": "^0.344.0",
