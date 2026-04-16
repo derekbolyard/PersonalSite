@@ -1,61 +1,58 @@
 import React from 'react';
-import { Code2, Monitor, Server, Brain, Database } from 'lucide-react';
-
-interface Skill {
-  name: string;
-  level: number;
-  icon: React.ComponentType<{ className?: string }>;
-}
 
 interface SkillsSectionProps {
   isDarkMode: boolean;
 }
 
-const skills: Skill[] = [
-  { name: 'JavaScript', level: 95, icon: Code2 },
-  { name: 'React', level: 90, icon: Monitor },
-  { name: 'Node.js', level: 85, icon: Server },
-  { name: 'Python', level: 80, icon: Brain },
-  { name: 'TypeScript', level: 85, icon: Code2 },
-  { name: 'Database', level: 75, icon: Database },
+const capabilities = [
+  {
+    label: 'Frontend systems',
+    summary: 'Interfaces that feel intentional instead of stitched together.',
+    items: ['React and TypeScript', 'Angular and Vue', 'Design-system cleanup'],
+  },
+  {
+    label: 'Backend and APIs',
+    summary: 'Business logic, integrations, and the plumbing that keeps products sane.',
+    items: ['Node and .NET services', 'Auth and payment flows', 'Operational guardrails'],
+  },
 ];
 
 export default function SkillsSection({ isDarkMode }: SkillsSectionProps) {
   return (
-    <section className="py-20 px-6">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">
-          Technical Arsenal
-        </h2>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {skills.map((skill, index) => (
-            <div
-              key={skill.name}
-              className={`group p-6 rounded-xl backdrop-blur-lg border transition-all duration-500 hover:transform hover:-translate-y-2 hover:shadow-2xl ${
-                isDarkMode 
-                  ? 'bg-white/5 border-white/10 hover:border-blue-500/50' 
-                  : 'bg-gray-50 border-gray-200 hover:border-blue-500/50'
+    <section id="capabilities" className="px-6 py-16 md:py-24">
+      <div className="mx-auto max-w-6xl">
+        <div className="mb-10 grid gap-6 border-b border-current/10 pb-8 md:grid-cols-[1fr_0.8fr] md:items-end">
+          <div>
+            <p className="text-xs uppercase tracking-[0.3em] text-stone-400">Capabilities</p>
+            <h2 className="display-face mt-3 text-4xl md:text-5xl">What I’m useful for</h2>
+          </div>
+          <p className={`max-w-xl text-sm leading-7 md:text-base ${isDarkMode ? 'text-stone-300' : 'text-stone-700'}`}>
+            The main buckets, without turning this into a giant skills matrix.
+          </p>
+        </div>
+
+        <div className="grid gap-6 lg:grid-cols-2">
+          {capabilities.map((capability) => (
+            <article
+              key={capability.label}
+              className={`rounded-[2rem] border p-6 md:p-7 ${
+                isDarkMode ? 'border-white/10 bg-white/5' : 'border-stone-300/80 bg-white/80'
               }`}
-              style={{ animationDelay: `${index * 100}ms` }}
             >
-              <div className="flex items-center mb-4">
-                <skill.icon className="w-8 h-8 text-blue-500 mr-3 group-hover:animate-pulse" />
-                <h3 className="text-xl font-semibold">{skill.name}</h3>
-              </div>
-              
-              <div className="relative">
-                <div className={`w-full h-2 rounded-full ${isDarkMode ? 'bg-gray-800' : 'bg-gray-200'}`}>
-                  <div
-                    className="h-full rounded-full bg-gradient-to-r from-blue-500 to-emerald-500 transition-all duration-1000 ease-out"
-                    style={{ width: `${skill.level}%` }}
-                  ></div>
-                </div>
-                <span className="absolute right-0 -top-6 text-sm text-gray-400 font-mono">
-                  {skill.level}%
-                </span>
-              </div>
-            </div>
+              <p className="text-xs uppercase tracking-[0.28em] text-stone-400">{capability.label}</p>
+              <p className={`mt-4 text-base leading-7 ${isDarkMode ? 'text-stone-100' : 'text-stone-900'}`}>
+                {capability.summary}
+              </p>
+
+              <ul className={`mt-6 space-y-3 text-sm leading-6 ${isDarkMode ? 'text-stone-300' : 'text-stone-700'}`}>
+                {capability.items.map((item) => (
+                  <li key={item} className="flex items-start gap-3">
+                    <span className={`mt-2 h-1.5 w-1.5 rounded-full ${isDarkMode ? 'bg-amber-300' : 'bg-stone-900'}`} />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </article>
           ))}
         </div>
       </div>

@@ -1,144 +1,273 @@
 import React from 'react';
-import { ExternalLink, Clock, Wrench, Package, Zap, Shield, Users } from 'lucide-react';
-
-interface Project {
-  title: string;
-  description: string;
-  tech: string[];
-  color: string;
-  status: string;
-  icon: React.ComponentType<{ className?: string }>;
-}
+import { ArrowUpRight } from 'lucide-react';
+import { PortfolioVariant } from './portfolioVariants';
 
 interface ProjectsSectionProps {
   isDarkMode: boolean;
+  variant: PortfolioVariant;
 }
 
-const projects: Project[] = [
+const projects = [
   {
     title: 'Access Lens',
-    description: 'Revolutionary accessibility analysis platform that makes the web inclusive for everyone',
-    tech: ['.NET', 'Angular', 'Playwright', 'WCAG', 'Axe'],
-    color: 'from-blue-500 to-purple-600',
+    note: 'A web app for reviewing accessibility issues and organizing them into follow-up work.',
     status: 'Live',
-    icon: Shield
+    tech: '.NET, Angular, Playwright',
+    url: 'https://getaccesslens.com',
   },
   {
     title: 'Cancel Widget',
-    description: 'Smart subscription management tool that helps users take control of their recurring payments',
-    tech: ['Vue.js', 'Node.js', 'Stripe API', 'MongoDB'],
-    color: 'from-emerald-500 to-teal-600',
-    status: 'Coming Soon',
-    icon: Zap
+    note: 'A small subscription-management concept focused on clearer cancellation flows.',
+    status: 'In build',
+    tech: 'Vue, Node, Stripe',
   },
   {
     title: 'Cert Stash',
-    description: 'Secure certificate management system for developers and IT professionals',
-    tech: ['React', 'Express', 'PostgreSQL', 'Docker'],
-    color: 'from-purple-500 to-pink-600',
-    status: 'Coming Soon',
-    icon: Users
-  }
+    note: 'A certificate tracking tool for storing documents and watching expiration dates.',
+    status: 'In build',
+    tech: 'React, Express, PostgreSQL',
+  },
 ];
 
-export default function ProjectsSection({ isDarkMode }: ProjectsSectionProps) {
-  return (
-    <section className="py-20 px-6">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-          Featured Projects
-        </h2>
-        <p className={`text-center mb-16 text-lg ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-          Innovative solutions currently in development
-        </p>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, index) => {
-            const Icon = project.icon;
-            const isAccessLens = project.title === 'Access Lens';
-            return (
-              <div
-                key={project.title}
-                className={`group relative overflow-hidden rounded-2xl backdrop-blur-lg border transition-all duration-500 hover:transform hover:-translate-y-4 hover:shadow-2xl hover:shadow-purple-500/10 ${
-                  isDarkMode 
-                    ? 'bg-white/5 border-white/10 hover:border-purple-500/30' 
-                    : 'bg-gray-50 border-gray-200 hover:border-purple-500/30 hover:shadow-purple-500/20'
-                } ${isAccessLens ? 'cursor-pointer' : ''}`}
-                style={{ animationDelay: `${index * 150}ms` }}
-                onClick={isAccessLens ? () => window.open('https://getaccesslens.com', '_blank', 'noopener,noreferrer') : undefined}
-              >
-                <div className={`absolute inset-0 bg-gradient-to-br ${project.color} ${isAccessLens ? 'opacity-20 group-hover:opacity-30' : 'opacity-10 group-hover:opacity-20'} transition-opacity duration-300`}></div>
-                
-                {/* Status Badge */}
-                {project.status !== 'Live' && (
-                  <div className="absolute top-4 right-4 z-10">
-                    <div className="flex items-center gap-2 px-3 py-1 bg-gradient-to-r from-orange-500 to-red-500 text-white text-xs font-bold rounded-full animate-pulse">
-                      <Clock className="w-3 h-3" />
-                      {project.status}
+export default function ProjectsSection({ isDarkMode, variant }: ProjectsSectionProps) {
+  if (variant === 'notebook') {
+    return (
+      <section id="projects" className="px-6 py-10 md:py-14">
+        <div className="mx-auto max-w-5xl">
+          <div className="mb-6">
+            <p className="font-mono text-xs uppercase tracking-[0.22em] text-stone-500">Projects</p>
+            <h2 className="mt-3 text-3xl font-semibold tracking-[-0.04em] md:text-4xl">Current work</h2>
+          </div>
+
+          <div className={`border-t ${isDarkMode ? 'border-white/10' : 'border-stone-300'}`}>
+            {projects.map((project) => {
+              const row = (
+                <>
+                  <div className="min-w-0">
+                    <div className="flex flex-wrap items-center gap-3">
+                      <h3 className="text-lg font-semibold">{project.title}</h3>
+                      <span className="font-mono text-xs uppercase tracking-[0.18em] text-stone-500">{project.status}</span>
                     </div>
+                    <p className={`mt-2 max-w-2xl text-sm leading-7 ${isDarkMode ? 'text-stone-300' : 'text-stone-700'}`}>
+                      {project.note}
+                    </p>
+                    <p className="mt-2 font-mono text-xs uppercase tracking-[0.16em] text-stone-500">{project.tech}</p>
                   </div>
-                )}
-                
-                {/* Live Badge for Access Lens */}
-                {isAccessLens && (
-                  <div className="absolute top-4 right-4 z-10">
-                    <div className="flex items-center gap-2 px-3 py-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xs font-bold rounded-full shadow-lg">
-                      <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
-                      LIVE
-                    </div>
-                  </div>
-                )}
-                
-                <div className="relative p-6">
-                  {/* Project Icon */}
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className={`p-2 rounded-lg bg-gradient-to-br ${project.color} ${isAccessLens ? 'bg-opacity-30 shadow-lg' : 'bg-opacity-20'}`}>
-                      <Icon className="w-6 h-6 text-white" />
-                    </div>
-                    <h3 className={`text-xl font-bold transition-colors duration-300 ${isAccessLens ? 'text-blue-600 group-hover:text-blue-500' : 'group-hover:text-blue-400'}`}>
-                      {project.title}
-                    </h3>
-                    <ExternalLink className={`w-5 h-5 transition-colors duration-300 ml-auto ${isAccessLens ? 'text-blue-500 group-hover:text-blue-400 group-hover:animate-bounce opacity-100' : 'text-gray-400 group-hover:text-blue-400 group-hover:animate-bounce opacity-50'}`} />
-                  </div>
-                  
-                  <p className={`mb-6 leading-relaxed ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                    {project.description}
-                  </p>
-                  
-                  <div className="flex flex-wrap gap-2">
-                    {project.tech.map((tech) => (
-                      <span
-                        key={tech}
-                        className={`px-3 py-1 text-sm rounded-full font-medium transition-all duration-300 hover:scale-105 ${
-                          isAccessLens
-                            ? 'bg-blue-600 text-white hover:bg-blue-700 border border-blue-500 shadow-md font-semibold'
-                            : 
-                          isDarkMode 
-                            ? 'bg-blue-500/20 text-blue-300 hover:bg-blue-500/30' 
-                            : 'bg-blue-100 text-blue-700 hover:bg-blue-200'
-                        }`}
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
+                  {project.url && <ArrowUpRight className="mt-1 h-5 w-5 shrink-0 text-stone-400" />}
+                </>
+              );
+
+              if (project.url) {
+                return (
+                  <button
+                    key={project.title}
+                    onClick={() => window.open(project.url, '_blank', 'noopener,noreferrer')}
+                    className={`flex w-full items-start justify-between gap-4 border-b px-1 py-5 text-left ${
+                      isDarkMode ? 'border-white/10 hover:bg-white/[0.02]' : 'border-stone-300 hover:bg-black/[0.02]'
+                    }`}
+                  >
+                    {row}
+                  </button>
+                );
+              }
+
+              return (
+                <div
+                  key={project.title}
+                  className={`flex items-start justify-between gap-4 border-b px-1 py-5 ${
+                    isDarkMode ? 'border-white/10' : 'border-stone-300'
+                  }`}
+                >
+                  {row}
                 </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (variant === 'lab') {
+    return (
+      <section id="projects" className="px-6 py-12 md:py-16">
+        <div className="mx-auto max-w-5xl">
+          <div className="mb-8 flex items-end justify-between gap-6">
+            <div>
+              <p className="text-xs uppercase tracking-[0.3em] text-sky-500">Lab index</p>
+              <h2 className="mt-3 text-4xl font-semibold tracking-[-0.05em] md:text-5xl">Active experiments</h2>
+            </div>
+            <p className={`hidden max-w-sm text-sm leading-7 md:block ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+              Three active directions with different scopes and constraints.
+            </p>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-3">
+            {projects.map((project, index) => {
+              const content = (
+                <>
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="text-xs uppercase tracking-[0.24em] text-sky-500">0{index + 1}</span>
+                    <span className="text-xs uppercase tracking-[0.2em] text-stone-400">{project.status}</span>
+                  </div>
+                  <h3 className="mt-6 text-xl font-semibold">{project.title}</h3>
+                  <p className={`mt-3 text-sm leading-7 ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>
+                    {project.note}
+                  </p>
+                  <p className="mt-4 text-xs uppercase tracking-[0.18em] text-stone-400">{project.tech}</p>
+                  {project.url && <ArrowUpRight className="mt-6 h-5 w-5 text-stone-400" />}
+                </>
+              );
+
+              const className = `rounded-[1.75rem] border p-5 text-left ${
+                isDarkMode ? 'border-sky-400/15 bg-[#0d1b27]/45' : 'border-sky-200 bg-white/72'
+              }`;
+
+              if (project.url) {
+                return (
+                  <button
+                    key={project.title}
+                    onClick={() => window.open(project.url, '_blank', 'noopener,noreferrer')}
+                    className={`${className} hover:-translate-y-0.5`}
+                  >
+                    {content}
+                  </button>
+                );
+              }
+
+              return (
+                <div key={project.title} className={className}>
+                  {content}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (variant === 'antiresume') {
+    return (
+      <section id="projects" className="px-6 py-10 md:py-12">
+        <div className="mx-auto max-w-5xl">
+          <div className="mb-4">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-stone-500">Projects</p>
+          </div>
+          <div className={`border-t ${isDarkMode ? 'border-white/10' : 'border-stone-300'}`}>
+            {projects.map((project) => {
+              const block = (
+                <>
+                  <div className="min-w-0">
+                    <div className="flex flex-wrap items-center gap-3">
+                      <h2 className="text-xl font-semibold">{project.title}</h2>
+                      <span className="text-xs uppercase tracking-[0.2em] text-stone-500">{project.status}</span>
+                    </div>
+                    <p className={`mt-2 max-w-3xl text-sm leading-7 ${isDarkMode ? 'text-stone-300' : 'text-stone-700'}`}>
+                      {project.note}
+                    </p>
+                    <p className="mt-2 text-xs uppercase tracking-[0.18em] text-stone-500">{project.tech}</p>
+                  </div>
+                  {project.url && <ArrowUpRight className="mt-1 h-5 w-5 shrink-0 text-stone-400" />}
+                </>
+              );
+
+              if (project.url) {
+                return (
+                  <button
+                    key={project.title}
+                    onClick={() => window.open(project.url, '_blank', 'noopener,noreferrer')}
+                    className={`flex w-full items-start justify-between gap-4 border-b py-6 text-left ${
+                      isDarkMode ? 'border-white/10 hover:bg-white/[0.02]' : 'border-stone-300 hover:bg-black/[0.02]'
+                    }`}
+                  >
+                    {block}
+                  </button>
+                );
+              }
+
+              return (
+                <div
+                  key={project.title}
+                  className={`flex items-start justify-between gap-4 border-b py-6 ${
+                    isDarkMode ? 'border-white/10' : 'border-stone-300'
+                  }`}
+                >
+                  {block}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section id="projects" className="px-6 py-12 md:py-16">
+      <div className="mx-auto max-w-4xl">
+        <div className="mb-8 text-center">
+          <p className="text-xs uppercase tracking-[0.3em] text-stone-400">Projects</p>
+          <h2 className="display-face mt-3 text-4xl md:text-5xl">Current work</h2>
+        </div>
+
+        <div
+          className={`overflow-hidden rounded-[2rem] border ${
+            isDarkMode ? 'border-white/10 bg-black/20' : 'border-stone-300/80 bg-white/85'
+          }`}
+        >
+          {projects.map((project, index) => {
+            const content = (
+              <>
+                <div className="min-w-0">
+                  <div className="flex items-center gap-3">
+                    <h3 className="text-lg font-semibold md:text-xl">{project.title}</h3>
+                    <span
+                      className={`rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] ${
+                        project.status === 'Live'
+                          ? isDarkMode
+                            ? 'bg-emerald-500/15 text-emerald-300'
+                            : 'bg-emerald-100 text-emerald-700'
+                          : isDarkMode
+                            ? 'bg-amber-500/15 text-amber-300'
+                            : 'bg-amber-100 text-amber-700'
+                      }`}
+                    >
+                      {project.status}
+                    </span>
+                  </div>
+                  <p className={`mt-2 text-sm leading-7 ${isDarkMode ? 'text-stone-300' : 'text-stone-700'}`}>
+                    {project.note}
+                  </p>
+                  <p className="mt-2 text-xs uppercase tracking-[0.2em] text-stone-400">{project.tech}</p>
+                </div>
+
+                {project.url && <ArrowUpRight className="h-5 w-5 shrink-0 text-stone-400" />}
+              </>
+            );
+
+            const className = `flex items-start justify-between gap-4 px-6 py-5 md:px-8 ${
+              index < projects.length - 1 ? 'border-b border-current/10' : ''
+            }`;
+
+            if (project.url) {
+              return (
+                <button
+                  key={project.title}
+                  onClick={() => window.open(project.url, '_blank', 'noopener,noreferrer')}
+                  className={`${className} w-full text-left hover:bg-black/[0.03] dark:hover:bg-white/[0.03]`}
+                >
+                  {content}
+                </button>
+              );
+            }
+
+            return (
+              <div key={project.title} className={className}>
+                {content}
               </div>
             );
           })}
-        </div>
-        
-        {/* Enhanced Projects Status Message */}
-        <div className="text-center mt-12">
-          <div className={`inline-flex items-center gap-3 px-6 py-4 rounded-full backdrop-blur-lg border transition-all duration-300 hover:scale-105 ${
-            isDarkMode ? 'bg-white/5 border-white/10 hover:border-orange-500/30' : 'bg-gray-50 border-gray-200 hover:border-orange-500/30'
-          }`}>
-            <Wrench className="w-5 h-5 text-orange-400 animate-spin" />
-            <span className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>
-              These projects are currently in development. Stay tuned for launches!
-            </span>
-            <Package className="w-5 h-5 text-blue-400 animate-bounce" />
-          </div>
         </div>
       </div>
     </section>

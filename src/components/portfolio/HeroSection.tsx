@@ -1,104 +1,210 @@
 import React from 'react';
-import { Code2, Rocket, Mail, Sparkles, Briefcase } from 'lucide-react';
+import { ArrowRight, Mail } from 'lucide-react';
+import { PortfolioVariant } from './portfolioVariants';
 
 interface HeroSectionProps {
-  currentTypeText: string;
   isDarkMode: boolean;
   onViewWorkClick: () => void;
-  showEasterEgg: boolean;
+  variant: PortfolioVariant;
 }
 
-export default function HeroSection({ 
-  currentTypeText, 
-  isDarkMode, 
-  onViewWorkClick, 
-  showEasterEgg 
-}: HeroSectionProps) {
+export default function HeroSection({ isDarkMode, onViewWorkClick, variant }: HeroSectionProps) {
   const handleGetInTouchClick = () => {
     const subject = encodeURIComponent("Let's Work Together!");
-    const body    = encodeURIComponent(
-    "Hi Derek,\n\nI'd love to discuss a potential project with you.\n\nBest regards,"
-  );
+    const body = encodeURIComponent(
+      "Hi Derek,\n\nI'd love to discuss a potential project with you.\n\nBest regards,"
+    );
 
-  window.location.href = `mailto:derekbolyard@gmail.com?subject=${subject}&body=${body}`;
-};
-
-  const handleServicesClick = () => {
-    window.location.href = '/services';
+    window.location.href = `mailto:derekbolyard@gmail.com?subject=${subject}&body=${body}`;
   };
 
-  return (
-    <section className="relative min-h-screen flex items-center justify-center px-6">
-      <div className="text-center max-w-4xl mx-auto">
-        <div className="mb-8">
-          <div className="w-32 h-32 mx-auto mb-8 relative group">
-            <div className="w-full h-full rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-emerald-500 p-1 animate-spin-slow">
-              <div className={`w-full h-full rounded-full flex items-center justify-center ${isDarkMode ? 'bg-gray-900' : 'bg-white'} transition-all duration-300 group-hover:scale-95`}>
-                <Code2 className="w-16 h-16 text-blue-500 group-hover:animate-bounce" />
+  if (variant === 'notebook') {
+    return (
+      <section id="top" className="px-6 pb-10 pt-10 md:pb-14">
+        <div className="mx-auto max-w-5xl">
+          <div
+            className={`rounded-[1.5rem] border p-6 md:p-8 ${
+              isDarkMode ? 'border-white/10 bg-black/20' : 'border-stone-300 bg-[#fbf8ef]'
+            }`}
+          >
+            <p className="font-mono text-xs uppercase tracking-[0.22em] text-stone-500">Working notebook</p>
+            <h1 className="mt-5 max-w-3xl text-4xl font-semibold tracking-[-0.04em] md:text-6xl">
+              Software engineer building web products.
+            </h1>
+            <p className={`mt-5 max-w-2xl text-base leading-8 ${isDarkMode ? 'text-stone-300' : 'text-stone-700'}`}>
+              Current projects, active ideas, and a simpler way of presenting the work.
+            </p>
+
+            <div className="mt-8 flex flex-wrap gap-3">
+              <button
+                onClick={onViewWorkClick}
+                className={`inline-flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold ${
+                  isDarkMode ? 'bg-white text-stone-950' : 'bg-stone-950 text-stone-50'
+                }`}
+              >
+                View projects
+                <ArrowRight className="h-4 w-4" />
+              </button>
+
+              <button
+                onClick={handleGetInTouchClick}
+                className={`inline-flex items-center gap-2 rounded-xl border px-4 py-3 text-sm font-semibold ${
+                  isDarkMode ? 'border-white/10 text-stone-200' : 'border-stone-300 text-stone-700'
+                }`}
+              >
+                <Mail className="h-4 w-4" />
+                Email Derek
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (variant === 'lab') {
+    return (
+      <section id="top" className="px-6 pb-12 pt-10 md:pb-16">
+        <div className="mx-auto grid max-w-5xl gap-6 lg:grid-cols-[1fr_0.42fr]">
+          <div
+            className={`rounded-[2rem] border p-6 md:p-8 ${
+              isDarkMode ? 'border-sky-400/15 bg-[#0d1b27]/60' : 'border-sky-200 bg-white/70'
+            }`}
+          >
+            <p className="text-xs uppercase tracking-[0.3em] text-sky-500">Product lab</p>
+            <h1 className="mt-5 max-w-3xl text-5xl font-semibold tracking-[-0.05em] text-balance md:text-7xl">
+              Building tools, testing ideas, and refining the rough edges.
+            </h1>
+            <p className={`mt-6 max-w-2xl text-base leading-8 ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>
+              Less portfolio, more working index of the things I keep shipping or revisiting.
+            </p>
+
+            <div className="mt-8 flex flex-wrap gap-3">
+              <button
+                onClick={onViewWorkClick}
+                className={`inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold ${
+                  isDarkMode ? 'bg-sky-200 text-slate-950' : 'bg-sky-900 text-sky-50'
+                }`}
+              >
+                Open projects
+                <ArrowRight className="h-4 w-4" />
+              </button>
+
+              <button
+                onClick={handleGetInTouchClick}
+                className={`inline-flex items-center gap-2 rounded-full border px-5 py-3 text-sm font-semibold ${
+                  isDarkMode ? 'border-sky-400/15 text-slate-200' : 'border-sky-200 text-slate-700'
+                }`}
+              >
+                <Mail className="h-4 w-4" />
+                Email Derek
+              </button>
+            </div>
+          </div>
+
+          <aside
+            className={`rounded-[2rem] border p-6 ${
+              isDarkMode ? 'border-sky-400/15 bg-[#0d1b27]/45' : 'border-sky-200 bg-[#f2f8fb]'
+            }`}
+          >
+            <p className="text-xs uppercase tracking-[0.28em] text-sky-500">Current lanes</p>
+            <div className="mt-4 space-y-4 text-sm leading-7">
+              <p>Product tooling</p>
+              <p>Frontend systems</p>
+              <p>.NET and JavaScript projects</p>
+            </div>
+          </aside>
+        </div>
+      </section>
+    );
+  }
+
+  if (variant === 'antiresume') {
+    return (
+      <section id="top" className="px-6 pb-8 pt-10 md:pb-12">
+        <div className="mx-auto max-w-5xl">
+          <div className={`border-b pb-8 ${isDarkMode ? 'border-white/10' : 'border-stone-300'}`}>
+            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-stone-500">Derek Bolyard</p>
+            <h1 className="mt-4 max-w-4xl text-4xl font-semibold tracking-[-0.05em] md:text-6xl">Software engineer.</h1>
+            <p className={`mt-5 max-w-2xl text-base leading-8 ${isDarkMode ? 'text-stone-300' : 'text-stone-700'}`}>
+              Working across web products, internal tools, and product ideas.
+            </p>
+
+            <div className="mt-7 flex flex-wrap gap-5 text-sm font-semibold">
+              <button onClick={onViewWorkClick} className="inline-flex items-center gap-2 underline underline-offset-4">
+                Projects
+                <ArrowRight className="h-4 w-4" />
+              </button>
+              <button onClick={handleGetInTouchClick} className="inline-flex items-center gap-2 underline underline-offset-4">
+                <Mail className="h-4 w-4" />
+                Email
+              </button>
+            </div>
+
+            <div className="mt-8 grid gap-3 text-sm leading-7 md:grid-cols-3">
+              <div>
+                <p className="text-xs uppercase tracking-[0.2em] text-stone-500">Now</p>
+                <p className="mt-1">Access Lens</p>
+              </div>
+              <div>
+                <p className="text-xs uppercase tracking-[0.2em] text-stone-500">Building</p>
+                <p className="mt-1">Cancel Widget, Cert Stash</p>
+              </div>
+              <div>
+                <p className="text-xs uppercase tracking-[0.2em] text-stone-500">Stack</p>
+                <p className="mt-1">.NET, TypeScript, React, Angular</p>
               </div>
             </div>
           </div>
         </div>
-        
-        <h1 className="text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-purple-500 to-emerald-400 bg-clip-text text-transparent hover:scale-105 transition-transform duration-300">
-          Hello, I'm Derek
-        </h1>
-        
-        <div className="text-2xl md:text-4xl mb-8 h-16 flex items-center justify-center">
-          <span className="text-gray-400">I'm a </span>
-          <span className="ml-2 font-mono text-blue-400 relative">
-            {currentTypeText}
-            <span className="opacity-100">|</span>
-            {/* Static glow effect behind text - NO blinking */}
-            <div className="absolute inset-0 bg-blue-400/20 blur-xl -z-10"></div>
-          </span>
+      </section>
+    );
+  }
+
+  return (
+    <section id="top" className="px-6 pb-12 pt-10 md:pb-16">
+      <div className="mx-auto max-w-4xl text-center">
+        <div
+          className={`mx-auto mb-6 inline-flex items-center rounded-full border px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] ${
+            isDarkMode
+              ? 'border-white/10 bg-white/5 text-stone-300'
+              : 'border-stone-300 bg-white/70 text-stone-600'
+          }`}
+        >
+          Personal editorial
         </div>
-        
-        <p className="text-xl text-gray-400 mb-12 max-w-2xl mx-auto leading-relaxed">
-          Passionate about crafting elegant solutions to complex problems. 
-          I transform ideas into scalable, user-centric applications that make a difference.
+
+        <h1 className="display-face mx-auto max-w-3xl text-5xl leading-none text-balance md:text-7xl">
+          Software engineer building web products.
+        </h1>
+
+        <p className={`mx-auto mt-6 max-w-2xl text-lg leading-8 ${isDarkMode ? 'text-stone-300' : 'text-stone-700'}`}>
+          A small collection of projects, experiments, and current work.
         </p>
-        
-        <div className="flex flex-wrap gap-4 justify-center relative">
-          <button 
+
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+          <button
             onClick={onViewWorkClick}
-            className="group px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg font-semibold hover:shadow-2xl hover:shadow-blue-500/25 transition-all duration-300 transform hover:-translate-y-1 hover:scale-105 relative overflow-visible"
+            className={`inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold ${
+              isDarkMode
+                ? 'bg-[#f2ead8] text-stone-950 hover:-translate-y-0.5'
+                : 'bg-stone-950 text-[#f8f5ee] hover:-translate-y-0.5'
+            }`}
           >
-            <span className="flex items-center gap-2">
-              <Rocket className="w-5 h-5 group-hover:animate-bounce" />
-              View My Work
-              <Sparkles className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            </span>
-            
-            {/* Easter Egg */}
-            {showEasterEgg && (
-              <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 z-50 animate-bounce-up">
-                <div className="bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg border-2 border-purple-300 text-gray-800 text-sm font-medium whitespace-nowrap">
-                  😄 you already are, silly!
-                </div>
-                <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-white/90"></div>
-              </div>
-            )}
+            View projects
+            <ArrowRight className="h-4 w-4" />
           </button>
-          
-          <button 
-            onClick={handleServicesClick}
-            className="group px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg font-semibold hover:shadow-2xl hover:shadow-green-500/25 transition-all duration-300 transform hover:-translate-y-1 hover:scale-105"
-          >
-            <span className="flex items-center gap-2">
-              <Briefcase className="w-5 h-5 group-hover:animate-bounce" />
-              Hire Me
-            </span>
-          </button>
-          
-          <button 
+
+          <button
             onClick={handleGetInTouchClick}
-            className="group px-8 py-4 border border-gray-600 rounded-lg font-semibold hover:bg-white/5 transition-all duration-300 transform hover:-translate-y-1 hover:scale-105 hover:border-blue-400"
+            className={`inline-flex items-center gap-2 rounded-full border px-5 py-3 text-sm font-semibold ${
+              isDarkMode
+                ? 'border-white/10 text-stone-300 hover:border-white/20 hover:text-white'
+                : 'border-stone-300 text-stone-700 hover:border-stone-500 hover:text-stone-950'
+            }`}
           >
-            <span className="flex items-center gap-2">
-              <Mail className="w-5 h-5 group-hover:animate-bounce" />
-              Get In Touch
-            </span>
+            <Mail className="h-4 w-4" />
+            Email Derek
           </button>
         </div>
       </div>
