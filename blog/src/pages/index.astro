@@ -1,0 +1,93 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+
+const allPosts = await getCollection('posts');
+const posts = allPosts
+  .filter(p => !p.data.draft)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+---
+
+<Base title="Writing">
+  <style>
+    h1 {
+      font-size: 1.5rem;
+      color: #171717;
+      font-weight: 500;
+      margin: 0 0 2.5rem;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      display: flex;
+      gap: 1.5rem;
+      align-items: baseline;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid #e5e5e5;
+    }
+
+    li:first-child {
+      border-top: 1px solid #e5e5e5;
+    }
+
+    .date {
+      font-size: 0.8rem;
+      color: #a3a3a3;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+      flex-shrink: 0;
+      padding-top: 0.1rem;
+    }
+
+    a {
+      color: #171717;
+      text-decoration: none;
+      font-weight: 450;
+    }
+
+    a:hover {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .description {
+      font-size: 0.9rem;
+      color: #737373;
+      margin-top: 0.15rem;
+    }
+
+    .empty {
+      color: #a3a3a3;
+      font-style: italic;
+    }
+  </style>
+
+  <h1>Writing</h1>
+
+  {posts.length === 0 ? (
+    <p class="empty">Nothing yet.</p>
+  ) : (
+    <ul>
+      {posts.map(post => (
+        <li>
+          <span class="date">{formatDate(post.data.date)}</span>
+          <div>
+            <a href={`/blog/${post.id}/`}>{post.data.title}</a>
+            {post.data.description && (
+              <div class="description">{post.data.description}</div>
+            )}
+          </div>
+        </li>
+      ))}
+    </ul>
+  )}
+</Base>

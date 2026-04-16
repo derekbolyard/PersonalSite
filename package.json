@@ -5,13 +5,16 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:all": "concurrently -n vite,astro -c blue,green \"vite\" \"cd blog && npm run dev\"",
     "build": "vite build && npm run build:docs",
     "build:docs": "cd blog && npm run build",
     "netlify-build": "npm run build && npm run build:docs && rm -rf netlify-dist && mkdir -p netlify-dist && cp -r dist/* netlify-dist/ && cp -r blog/dist netlify-dist/blog",
     "lint": "eslint .",
     "preview": "vite preview"
   },
-  "workspaces": [".", "blog"],
+  "workspaces": [
+    "."
+  ],
   "dependencies": {
     "lucide-react": "^0.344.0",
     "react": "^18.3.1",
@@ -24,6 +27,7 @@
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
     "autoprefixer": "^10.4.18",
+    "concurrently": "^9.2.1",
     "eslint": "^9.9.1",
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.11",
